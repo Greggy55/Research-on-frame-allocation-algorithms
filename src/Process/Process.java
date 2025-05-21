@@ -83,8 +83,12 @@ public class Process {
         return virtualMemory.referenceStringToString();
     }
 
+    public String pagesToString() {
+        return virtualMemory.pagesToString();
+    }
+
     @Override
     public String toString() {
-        return referenceStringToString();
+        return "Pages: " + pagesToString() + "\nRefStr: " + referenceStringToString();
     }
 }

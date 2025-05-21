@@ -46,7 +46,9 @@ public class Simulation {
         generateProcesses();
         createGlobalReferenceString();
 
-        System.out.println(Arrays.toString(processes));
+        for(Process process : processes){
+            System.out.println(process);
+        }
         System.out.println();
         System.out.println(Arrays.toString(globalReferenceString));
     }

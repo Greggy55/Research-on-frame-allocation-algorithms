@@ -1,7 +1,7 @@
 package Memory.VirtualMemory;
 
 public class Page implements Comparable<Page> {
-    public static boolean COLOR = false;
+    public static boolean COLOR = true;
 
     public static final String ANSI_RESET = "\u001B[0m";
     private static final int BEGIN_COLOR_CODE = 17;
