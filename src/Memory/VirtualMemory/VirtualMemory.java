@@ -76,20 +76,22 @@ public class VirtualMemory {
         referenceString = new Page[stringLength];
 
         int nextLocalitySwitch = stringLength / approxNumberOfLocalities;
-        int radius = 2;
-        int mid = rnd.nextInt(pageArray.length - radius);
+        int radius = Math.min(pageArray.length, 2);
+        int mid = rnd.nextInt(Math.max(1, pageArray.length - radius));
 
         int origin = Math.max(0, mid-radius);
         int bound = Math.min(mid+radius+1, pageArray.length);
+        System.out.println(origin + " " + bound + " " + mid + " " + radius);
 
         for(int i = 0; i < stringLength; i++){
             if(localityFactor > rnd.nextDouble()){
                 if(i >= nextLocalitySwitch){
-                    mid = rnd.nextInt(pageArray.length - radius);
+                    mid = rnd.nextInt(Math.max(1, pageArray.length - radius));
                     origin = Math.max(0, mid-radius);
-                    bound = mid+radius+1;
+                    bound = mid+radius; // +1
                     nextLocalitySwitch += rnd.nextInt(stringLength / approxNumberOfLocalities);
                 }
+                System.out.println(origin + " " + bound);
                 referenceString[i] = pageArray[rnd.nextInt(origin, bound)];
             }
             else{

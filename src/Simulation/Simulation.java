@@ -50,7 +50,7 @@ public class Simulation {
 
     public void generateProcesses(){
         for(int i = 0; i < numberOfProcesses; i++) {
-            int totalNumberOfPages = rand.nextInt(maxNumberOfPages);
+            int totalNumberOfPages = rand.nextInt(1, maxNumberOfPages);
             int referenceStringLength = totalGlobalReferenceStringLength / numberOfProcesses;
 
             Process process = new Process(

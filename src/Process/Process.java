@@ -78,4 +78,13 @@ public class Process {
     public void setCompletelyInGlobalRefStr(boolean completelyInGlobalRefStr) {
         this.completelyInGlobalRefStr = completelyInGlobalRefStr;
     }
+
+    public String referenceStringToString() {
+        return virtualMemory.referenceStringToString();
+    }
+
+    @Override
+    public String toString() {
+        return referenceStringToString();
+    }
 }

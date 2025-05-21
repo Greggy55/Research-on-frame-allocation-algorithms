@@ -1,24 +1,20 @@
-import Process.Process;
+import Simulation.Simulation;
 
 public class Main {
     public static void main(String[] args) {
-        int numberOfFrames = 10;
-        int totalNumberOfPages = 20;
-        int referenceStringLength = 100;
 
-        int localityLevel = 12;
-        double localityFactor = 0.8;
+        int totalNumberOfFrames = 30;
+        int totalGlobalReferenceStringLength = 100;
+        int numberOfProcesses = 5;
+        int maxNumberOfPages = 5;
 
-        Process process = new Process(
-                numberOfFrames,
-                totalNumberOfPages,
-                referenceStringLength,
-
-                localityLevel,
-                localityFactor
+        Simulation simulation = new Simulation(
+                totalNumberOfFrames,
+                totalGlobalReferenceStringLength,
+                numberOfProcesses,
+                maxNumberOfPages
         );
 
-        process.generateReferenceString();
-        process.runLRU();
+        simulation.start();
     }
 }
