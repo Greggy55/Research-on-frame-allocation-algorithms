@@ -8,7 +8,7 @@ public class Process {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
 
-    private final int numberOfFrames;
+    private int numberOfFrames;
     private final int totalNumberOfPages;
     private final int referenceStringLength;
 
@@ -16,7 +16,7 @@ public class Process {
     private final double localityFactor;
 
     private VirtualMemory virtualMemory;
-    private PhysicalMemory physicalMemory;
+    //private PhysicalMemory physicalMemory;
 
     private LRU lru;
 
@@ -36,9 +36,14 @@ public class Process {
         this.localityFactor = localityFactor;
 
         virtualMemory = new VirtualMemory(totalNumberOfPages);
-        physicalMemory = new PhysicalMemory(numberOfFrames);
+        //physicalMemory = new PhysicalMemory(numberOfFrames);
 
-        lru = new LRU(false, false, physicalMemory);
+        lru = new LRU(false, false, new PhysicalMemory(numberOfFrames));
+    }
+
+    public void updateNumberOfFrames(int numberOfFrames) {
+        this.numberOfFrames = numberOfFrames;
+        lru.updateNumberOfFrames(numberOfFrames);
     }
 
     public void runLRU(){

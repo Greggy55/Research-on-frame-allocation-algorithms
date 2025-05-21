@@ -36,6 +36,10 @@ public abstract class Algorithm {
         this.memory = memory;
     }
 
+    public void updateNumberOfFrames(int numberOfFrames){
+        this.memory.updateNumberOfFrames(numberOfFrames);
+    }
+
     public abstract void replacePage();
 
     public void run(Page[] refStr){

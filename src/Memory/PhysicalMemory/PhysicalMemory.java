@@ -4,16 +4,24 @@ import Memory.VirtualMemory.Page;
 
 public class PhysicalMemory {
     // size
-    private final int numberOfFrames;
+    private int numberOfFrames;
 
-    private final Frame[] frameArray;
+    private Frame[] frameArray;
 
     public PhysicalMemory(int numberOfFrames) {
+        createFrameArray(numberOfFrames);
+    }
+
+    private void createFrameArray(int numberOfFrames) {
         this.numberOfFrames = numberOfFrames;
         frameArray = new Frame[numberOfFrames];
         for(int i = 0; i < numberOfFrames; i++){
             frameArray[i] = new Frame();
         }
+    }
+
+    public void updateNumberOfFrames(int numberOfFrames) {
+        createFrameArray(numberOfFrames);
     }
 
     public int indexOfPage(Page page){
