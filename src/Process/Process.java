@@ -1,10 +1,10 @@
-package Simulation;
+package Process;
 
 import PageReplacement.*;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.VirtualMemory;
 
-public class Simulation {
+public class Process {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
 
@@ -20,17 +20,13 @@ public class Simulation {
 
     private LRU lru;
 
-    public Simulation(
+    public Process(
             int numberOfFrames,
             int totalNumberOfPages,
             int referenceStringLength,
 
             int localityLevel,
-            double localityFactor,
-            
-            boolean printLRU,
-
-            boolean printDetails
+            double localityFactor
     ) {
         this.numberOfFrames = numberOfFrames;
         this.totalNumberOfPages = totalNumberOfPages;
@@ -42,13 +38,10 @@ public class Simulation {
         virtualMemory = new VirtualMemory(totalNumberOfPages);
         physicalMemory = new PhysicalMemory(numberOfFrames);
 
-        lru = new LRU(printLRU, printDetails, physicalMemory);
+        lru = new LRU(false, false, physicalMemory);
     }
 
-    public void start(){
-        generateReferenceString();
-        //virtualMemory.generateExampleReferenceString();
-
+    public void runLRU(){
         lru.run(virtualMemory.getReferenceString());
     }
 
@@ -59,17 +52,5 @@ public class Simulation {
         else{
             virtualMemory.generateRandomReferenceString(referenceStringLength);
         }
-    }
-
-    public void printParameters(){
-        System.out.println("Pages: " + ANSI_YELLOW + virtualMemory.pagesToString() + ANSI_RESET);
-        System.out.println("Reference string: " + ANSI_YELLOW + virtualMemory.referenceStringToString() + ANSI_RESET);
-        System.out.println("Number of frames: " + ANSI_YELLOW + numberOfFrames + ANSI_RESET);
-        System.out.println("Total number of pages: " + ANSI_YELLOW + totalNumberOfPages + ANSI_RESET);
-        System.out.println("Reference string length: " + ANSI_YELLOW + referenceStringLength + ANSI_RESET);
-    }
-
-    public void printStatistics() {
-        lru.printStatistics();
     }
 }
