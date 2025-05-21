@@ -14,6 +14,7 @@ public class Simulation {
 
     private final int totalNumberOfFrames;
     private final int totalGlobalReferenceStringLength;
+    private final int minNumberOfPages;
     private final int maxNumberOfPages;
 
     private final int numberOfProcesses;
@@ -28,11 +29,13 @@ public class Simulation {
             int totalNumberOfFrames,
             int totalGlobalReferenceStringLength,
             int numberOfProcesses,
+            int minNumberOfPages,
             int maxNumberOfPages
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
         this.totalGlobalReferenceStringLength = totalGlobalReferenceStringLength;
         this.numberOfProcesses = numberOfProcesses;
+        this.minNumberOfPages = minNumberOfPages;
         this.maxNumberOfPages = maxNumberOfPages;
 
         this.processes = new Process[numberOfProcesses];
@@ -50,7 +53,7 @@ public class Simulation {
 
     public void generateProcesses(){
         for(int i = 0; i < numberOfProcesses; i++) {
-            int totalNumberOfPages = rand.nextInt(1, maxNumberOfPages);
+            int totalNumberOfPages = rand.nextInt(minNumberOfPages, maxNumberOfPages);
             int referenceStringLength = totalGlobalReferenceStringLength / numberOfProcesses;
 
             Process process = new Process(
