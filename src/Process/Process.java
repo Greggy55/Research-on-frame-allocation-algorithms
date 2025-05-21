@@ -1,5 +1,6 @@
 package Process;
 
+import Memory.VirtualMemory.Page;
 import PageReplacement.*;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.VirtualMemory;
@@ -17,6 +18,9 @@ public class Process {
 
     private VirtualMemory virtualMemory;
     //private PhysicalMemory physicalMemory;
+
+    private int globalRefStringIndex = 0;
+    private boolean completelyInGlobalRefStr = false;
 
     private LRU lru;
 
@@ -57,5 +61,21 @@ public class Process {
         else{
             virtualMemory.generateRandomReferenceString(referenceStringLength);
         }
+    }
+
+    public Page[] getReferenceString(){
+        return virtualMemory.getReferenceString();
+    }
+
+    public int getAndIncrementGlobalRefStringIndex(){
+        return globalRefStringIndex++;
+    }
+
+    public boolean isCompletelyInGlobalRefStr(){
+        return completelyInGlobalRefStr;
+    }
+
+    public void setCompletelyInGlobalRefStr(boolean completelyInGlobalRefStr) {
+        this.completelyInGlobalRefStr = completelyInGlobalRefStr;
     }
 }
