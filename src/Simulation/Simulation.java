@@ -50,7 +50,7 @@ public class Simulation {
             System.out.println(process);
         }
         System.out.println();
-        System.out.println(Arrays.toString(globalReferenceString));
+        System.out.println("Global: " + Arrays.toString(globalReferenceString));
     }
 
     public void generateProcesses(){

@@ -15,13 +15,13 @@ public class Page implements Comparable<Page> {
     public Page(char id) {
         this.idChar = id;
         this.isInt = false;
-        updateColorCode();
+        //updateColorCode();
     }
 
     public Page(int id) {
         this.idInt = id;
         this.isInt = true;
-        updateColorCode();
+        //updateColorCode();
     }
 
     @Override
