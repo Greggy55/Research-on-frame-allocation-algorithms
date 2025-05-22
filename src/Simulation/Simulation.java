@@ -1,5 +1,7 @@
 package Simulation;
 
+import FrameAllocation.*;
+import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
 import Process.Process;
 
@@ -22,6 +24,8 @@ public class Simulation {
     private final Process[] processes;
 
     private Page[] globalReferenceString;
+
+    private FrameAllocation frameAllocation;
 
     private final int localityLevel = 12;
     private final double localityFactor = 0.8;
@@ -51,6 +55,12 @@ public class Simulation {
         }
         System.out.println();
         System.out.println("Global: " + Arrays.toString(globalReferenceString));
+        System.out.println();
+
+        PhysicalMemory memory = new PhysicalMemory(totalNumberOfFrames);
+
+        frameAllocation = new Equal(true, true, processes, memory, globalReferenceString);
+        frameAllocation.run();
     }
 
     public void generateProcesses(){

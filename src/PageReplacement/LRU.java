@@ -3,7 +3,7 @@ package PageReplacement;
 import Memory.PhysicalMemory.Frame;
 import Memory.PhysicalMemory.PhysicalMemory;
 
-public class LRU extends Algorithm {
+public class LRU extends PageReplacement {
 
     public LRU(boolean print, boolean printDetails, PhysicalMemory memory) {
         super(print, printDetails, memory);

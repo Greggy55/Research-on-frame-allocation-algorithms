@@ -92,7 +92,7 @@ public class VirtualMemory {
                     mid = rnd.nextInt(Math.max(1, pageArray.length - radius));
                     origin = Math.max(0, mid-radius);
                     bound = mid+radius+1; // +1
-                    nextLocalitySwitch += rnd.nextInt(stringLength / approxNumberOfLocalities);
+                    nextLocalitySwitch += rnd.nextInt(Math.max(1, stringLength / approxNumberOfLocalities));
                 }
                 referenceString[i] = pageArray[rnd.nextInt(origin, bound)];
             }

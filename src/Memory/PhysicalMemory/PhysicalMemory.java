@@ -93,9 +93,9 @@ public class PhysicalMemory {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("PhysicalMemory:");
-        int i = 28;
+        //int i = 28;
         for(Frame frame : frameArray){
-            frame.setColorCode(i++);
+            //frame.setColorCode(i++);
             builder.append(" ").append(frame);
         }
         return builder.toString();

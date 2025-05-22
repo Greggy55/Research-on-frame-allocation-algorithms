@@ -6,7 +6,7 @@ import Simulation.Simulation;
 public class Main {
     public static void main(String[] args) {
 
-        Frame.COLOR = false;
+        Frame.COLOR = true;
         Page.COLOR = true;
 
         VirtualMemory.INT_TYPE = true;

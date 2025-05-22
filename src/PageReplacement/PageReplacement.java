@@ -6,7 +6,7 @@ import Memory.VirtualMemory.Page;
 
 import java.util.HashMap;
 
-public abstract class Algorithm {
+public abstract class PageReplacement {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
@@ -30,7 +30,7 @@ public abstract class Algorithm {
 
     protected int iter;
 
-    public Algorithm(boolean print, boolean printDetails, PhysicalMemory memory){
+    public PageReplacement(boolean print, boolean printDetails, PhysicalMemory memory){
         this.print = print;
         this.printDetails = printDetails;
         this.memory = memory;
