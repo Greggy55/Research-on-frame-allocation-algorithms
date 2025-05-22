@@ -60,7 +60,6 @@ public class VirtualMemory {
     private void generateIntPages() {
         for(int i = 0; i < totalNumberOfPages; i++){
             pageArray[i] = new Page(i + pageId);
-            pageArray[i].setColorCode(colorCode);
             if(process == null){
                 throw new RuntimeException("Process is null");
             }
@@ -81,7 +80,6 @@ public class VirtualMemory {
             } while(used.contains(ch) || isInvalid(ch));
 
             pageArray[i] = new Page(ch);
-            pageArray[i].setColorCode(colorCode);
             pageArray[i].setProcess(process);
             used.add(ch);
         }

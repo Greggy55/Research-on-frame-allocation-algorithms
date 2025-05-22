@@ -25,7 +25,7 @@ public class Equal extends FrameAllocation{
 
             for(int i = 0; i < numberOfFrames; i++) {
                 processFrames[i] = globalFrames[i + frameIndex];
-                processFrames[i].setColorCode(process.getColorCode());
+                processFrames[i].setProcess(process);
             }
 
             frameIndex += numberOfFrames;

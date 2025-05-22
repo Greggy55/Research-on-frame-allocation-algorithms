@@ -1,6 +1,7 @@
 package Memory.PhysicalMemory;
 
 import Memory.VirtualMemory.Page;
+import Process.Process;
 
 public class Frame {
     public static boolean COLOR = false;
@@ -9,6 +10,7 @@ public class Frame {
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
 
     private int colorCode = 0;
+    private Process process;
 
     private Page page;
     private boolean containsPage;
@@ -29,6 +31,7 @@ public class Frame {
     public void clear(){
         page = null;
         containsPage = false;
+        colorCode = 0;
     }
 
     public void setPage(Page page) {
@@ -45,6 +48,15 @@ public class Frame {
         return containsPage;
     }
 
+    public Process getProcess() {
+        return process;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
+        this.colorCode = process.getColorCode();
+    }
+
     @Override
     public String toString() {
         return ansi256(colorCode) + "[" + (!containsPage ? " " : page.idToString()) + "]" + ANSI_RESET;
@@ -54,9 +66,9 @@ public class Frame {
         return colorCode;
     }
 
-    public void setColorCode(int colorCode) {
-        this.colorCode = colorCode;
-    }
+//    public void setColorCode(int colorCode) {
+//        this.colorCode = colorCode;
+//    }
 
     public static String ansi256(int code) {
         return COLOR ? "\u001B[38;5;" + code + "m" : ANSI_YELLOW;

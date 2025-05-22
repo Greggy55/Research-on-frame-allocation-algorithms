@@ -59,9 +59,9 @@ public class Page implements Comparable<Page> {
         return colorCode;
     }
 
-    public void setColorCode(int colorCode) {
-        this.colorCode = colorCode;
-    }
+//    public void setColorCode(int colorCode) {
+//        this.colorCode = colorCode;
+//    }
 
     public void updateColorCode() {
         colorCode = BEGIN_COLOR_CODE + (globalColorCode / 6);
@@ -105,5 +105,6 @@ public class Page implements Comparable<Page> {
 
     public void setProcess(Process process) {
         this.process = process;
+        this.colorCode = process.getColorCode();
     }
 }
