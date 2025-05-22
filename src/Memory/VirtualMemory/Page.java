@@ -59,17 +59,17 @@ public class Page implements Comparable<Page> {
         return colorCode;
     }
 
-//    public void setColorCode(int colorCode) {
-//        this.colorCode = colorCode;
-//    }
-
-    public void updateColorCode() {
-        colorCode = BEGIN_COLOR_CODE + (globalColorCode / 6);
-        if((colorCode-BEGIN_COLOR_CODE+1)%6==0){
-            colorCode++;
-        }
-        globalColorCode++;
+    public void setColorCode(int colorCode) {
+        this.colorCode = colorCode;
     }
+
+//    public void updateColorCode() {
+//        colorCode = BEGIN_COLOR_CODE + (globalColorCode / 6);
+//        if((colorCode-BEGIN_COLOR_CODE+1)%6==0){
+//            colorCode++;
+//        }
+//        globalColorCode++;
+//    }
 
     public static String ansi256(int code) {
         return "\u001B[38;5;" + code + "m";

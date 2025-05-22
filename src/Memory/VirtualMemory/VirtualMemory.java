@@ -64,6 +64,7 @@ public class VirtualMemory {
                 throw new RuntimeException("Process is null");
             }
             pageArray[i].setProcess(process);
+            pageArray[i].setColorCode(colorCode);
         }
         pageId += totalNumberOfPages;
     }

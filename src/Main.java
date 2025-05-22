@@ -19,7 +19,7 @@ public class Main {
 
         boolean printLRU = false;
 
-        boolean printEqual = true;
+        boolean printEqual = false;
         boolean printProportional = true;
         boolean printPFFControl = false;
         boolean printZoneModel = true;

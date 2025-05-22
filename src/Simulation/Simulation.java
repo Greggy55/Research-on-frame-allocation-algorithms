@@ -81,10 +81,10 @@ public class Simulation {
         System.out.println();
 
         // ---------- Equal ----------
-        reset(printLRU && printEqual);
-        frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
-        frameAllocation.run();
-        runLRU(printEqual);
+//        reset(printLRU && printEqual);
+//        frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
+//        frameAllocation.run();
+//        runLRU(printEqual);
 
         // ---------- Proportional ----------
         reset(printLRU && printProportional);

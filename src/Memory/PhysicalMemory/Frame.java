@@ -9,19 +9,23 @@ public class Frame {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
 
-    private int colorCode = 0;
+    // DO WYCZYSZCZENIA W CLEAR
+    private int colorCode;
     private Process process;
-
     private Page page;
     private boolean containsPage;
 
     public Frame(){
         page = null;
         containsPage = false;
+        colorCode = 0;
+        process = null;
     }
     public Frame(Page page){
         this.page = page;
         containsPage = true;
+        colorCode = 0;
+        process = null;
     }
 
     public Page getPage() {
@@ -32,6 +36,7 @@ public class Frame {
         page = null;
         containsPage = false;
         colorCode = 0;
+        process = null;
     }
 
     public void setPage(Page page) {
