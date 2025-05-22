@@ -20,9 +20,7 @@ public class Proportional extends FrameAllocation{
 
         for(Process process : processes) {
             int numberOfFrames = getRatio(process, globalFrames, totalNumberOfPages);
-            // sout
-            System.out.println(numberOfFrames);
-            //
+            //System.out.println(numberOfFrames);
 
             if(numberOfFrames + frameIndex >= globalFrames.length) {
                 numberOfFrames = globalFrames.length - frameIndex;
@@ -40,9 +38,9 @@ public class Proportional extends FrameAllocation{
         }
 
         if(globalFrames[globalFrames.length-1].getProcess() == null) {
-            System.out.println("BYLOBY: " + memory);
+            //System.out.println("BYLOBY: " + memory);
             globalFrames[globalFrames.length - 1].setProcess(processes[processes.length - 1]);
-            System.out.println("JEST: " + memory);
+            //System.out.println("JEST: " + memory);
         }
     }
 
