@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class VirtualMemory {
     public static boolean INT_TYPE = true;
-    public static int colorCode = 20;
+    public static int colorCode = 15;
 
     private static int pageId = 1;
 
@@ -25,13 +25,17 @@ public class VirtualMemory {
         pageArray = new Page[totalNumberOfPages];
         used.add(emptyChar);
 
+        colorCode += 5;
         if(INT_TYPE){
             generateIntPages();
         }
         else{
             generateCharPages();
         }
-        colorCode += 5;
+    }
+
+    public static int getColorCode() {
+        return colorCode;
     }
 
     private void generateIntPages() {

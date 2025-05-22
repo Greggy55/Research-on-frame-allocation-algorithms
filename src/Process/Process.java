@@ -1,5 +1,6 @@
 package Process;
 
+import Memory.PhysicalMemory.Frame;
 import Memory.VirtualMemory.Page;
 import PageReplacement.*;
 import Memory.PhysicalMemory.PhysicalMemory;
@@ -9,6 +10,8 @@ public class Process {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
 
+    private final int colorCode;
+
     private int numberOfFrames;
     private final int totalNumberOfPages;
     private final int referenceStringLength;
@@ -17,7 +20,7 @@ public class Process {
     private final double localityFactor;
 
     private VirtualMemory virtualMemory;
-    //private PhysicalMemory physicalMemory;
+    private PhysicalMemory physicalMemory;
 
     private int globalRefStringIndex = 0;
     private boolean completelyInGlobalRefStr = false;
@@ -40,9 +43,15 @@ public class Process {
         this.localityFactor = localityFactor;
 
         virtualMemory = new VirtualMemory(totalNumberOfPages);
-        //physicalMemory = new PhysicalMemory(numberOfFrames);
+        physicalMemory = new PhysicalMemory(numberOfFrames);
 
-        lru = new LRU(false, false, new PhysicalMemory(numberOfFrames));
+        colorCode = VirtualMemory.getColorCode();
+
+        lru = new LRU(false, false, physicalMemory);
+    }
+
+    public int getColorCode() {
+        return colorCode;
     }
 
     public void updateNumberOfFrames(int numberOfFrames) {
@@ -85,6 +94,14 @@ public class Process {
 
     public String pagesToString() {
         return virtualMemory.pagesToString();
+    }
+
+    public int getTotalNumberOfPages() {
+        return totalNumberOfPages;
+    }
+
+    public Frame[] getFrameArray(){
+        return physicalMemory.getFrameArray();
     }
 
     @Override

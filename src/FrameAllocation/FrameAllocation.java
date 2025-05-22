@@ -20,10 +20,6 @@ public abstract class FrameAllocation {
     protected final Page[] globalReferenceString;
     protected final PhysicalMemory memory;
 
-    protected Page currentPage;
-
-    protected int iter;
-
     public FrameAllocation(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString){
         this.print = print;
         this.printDetails = printDetails;
