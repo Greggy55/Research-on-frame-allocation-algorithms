@@ -17,10 +17,12 @@ public class Main {
         int minNumberOfPages = 3;
         int maxNumberOfPages = 10;
 
+        boolean printLRU = false;
+
         boolean printEqual = true;
-        boolean printProportional = false;
+        boolean printProportional = true;
         boolean printPFFControl = false;
-        boolean printZoneModel = false;
+        boolean printZoneModel = true;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
@@ -28,6 +30,8 @@ public class Main {
                 numberOfProcesses,
                 minNumberOfPages,
                 maxNumberOfPages,
+
+                printLRU,
 
                 printEqual,
                 printProportional,

@@ -34,6 +34,9 @@ public abstract class FrameAllocation {
         memory.clear();
 
         if(print){
+            System.out.println();
+            System.out.println("-".repeat(100));
+            System.out.println();
             System.out.printf("%s Run\n", name);
         }
 
@@ -41,16 +44,15 @@ public abstract class FrameAllocation {
 
         if(print){
             System.out.println();
-            System.out.printf("%s End\n", name);
             System.out.printf("%s " + memory + "\n", name);
-
-            System.out.println();
-            System.out.println("-".repeat(100));
-            System.out.println();
         }
     }
 
     public PhysicalMemory getMemory() {
         return memory;
+    }
+
+    public void printMemory(){
+        System.out.println(name + " " + memory);
     }
 }

@@ -14,6 +14,8 @@ public class Simulation {
 
     private final Random rand = new Random();
 
+    private final boolean printLRU;
+
     private final boolean printEqual;
     private final boolean printProportional;
     private final boolean printPFFControl;
@@ -43,6 +45,8 @@ public class Simulation {
             int minNumberOfPages,
             int maxNumberOfPages,
 
+            boolean printLRU,
+
             boolean printEqual,
             boolean printProportional,
             boolean printPFFControl,
@@ -53,6 +57,8 @@ public class Simulation {
         this.numberOfProcesses = numberOfProcesses;
         this.minNumberOfPages = minNumberOfPages;
         this.maxNumberOfPages = maxNumberOfPages;
+
+        this.printLRU = printLRU;
 
         this.printEqual = printEqual;
         this.printProportional = printProportional;
@@ -74,28 +80,37 @@ public class Simulation {
         System.out.println("Global: " + Arrays.toString(globalReferenceString));
         System.out.println();
 
-
-        reset(printEqual);
-
+        // ---------- Equal ----------
+        reset(printLRU && printEqual);
         frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
         frameAllocation.run();
-        for(int i = 0; i < globalReferenceString.length; i++){
-            Process process = globalReferenceString[i].getProcess();
-            process.runSingleIterationLRU();
-            if(printEqual){
-                System.out.println(frameAllocation.getMemory());
-            }
-        }
+        runLRU(printEqual);
 
-        reset(false);
-
-        frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
+        // ---------- Proportional ----------
+        reset(printLRU && printProportional);
+        frameAllocation = new Equal(printProportional, printProportional, processes, memory, globalReferenceString);
         frameAllocation.run();
-        for(int i = 0; i < globalReferenceString.length; i++){
-            Process process = globalReferenceString[i].getProcess();
+        runLRU(printProportional);
+
+        // ---------- PFF Control ----------
+        reset(printLRU && printPFFControl);
+        frameAllocation = new Equal(printPFFControl, printPFFControl, processes, memory, globalReferenceString);
+        frameAllocation.run();
+        runLRU(printPFFControl);
+
+        // ---------- Zone Model ----------
+        reset(printLRU && printZoneModel);
+        frameAllocation = new Equal(printZoneModel, printZoneModel, processes, memory, globalReferenceString);
+        frameAllocation.run();
+        runLRU(printZoneModel);
+    }
+
+    private void runLRU(boolean printAllocation) {
+        for (Page page : globalReferenceString) {
+            Process process = page.getProcess();
             process.runSingleIterationLRU();
-            if(false){
-                System.out.println(frameAllocation.getMemory());
+            if (printAllocation) {
+                frameAllocation.printMemory();
             }
         }
     }
