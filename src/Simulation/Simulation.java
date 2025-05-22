@@ -14,6 +14,8 @@ public class Simulation {
 
     private final Random rand = new Random();
 
+    private final boolean print;
+
     private int globalReferenceStringLength = 0;
     private final int totalNumberOfFrames;
     private final int maxReferenceStringLength;
@@ -35,13 +37,16 @@ public class Simulation {
             int maxReferenceStringLength,
             int numberOfProcesses,
             int minNumberOfPages,
-            int maxNumberOfPages
+            int maxNumberOfPages,
+
+            boolean print
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
         this.maxReferenceStringLength = Math.max(maxReferenceStringLength, maxNumberOfPages+1);
         this.numberOfProcesses = numberOfProcesses;
         this.minNumberOfPages = minNumberOfPages;
         this.maxNumberOfPages = maxNumberOfPages;
+        this.print = print;
 
         this.processes = new Process[numberOfProcesses];
     }
@@ -59,8 +64,16 @@ public class Simulation {
 
         PhysicalMemory memory = new PhysicalMemory(totalNumberOfFrames);
 
-        frameAllocation = new Equal(true, true, processes, memory, globalReferenceString);
+        frameAllocation = new Equal(print, print, processes, memory, globalReferenceString);
         frameAllocation.run();
+        for(int i = 0; i < globalReferenceString.length; i++){
+            Process process = globalReferenceString[i].getProcess();
+            process.runSingleIterationLRU();
+            if(print){
+                System.out.println(frameAllocation.getMemory());
+            }
+
+        }
     }
 
     public void generateProcesses(){

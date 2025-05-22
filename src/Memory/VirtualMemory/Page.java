@@ -1,7 +1,11 @@
 package Memory.VirtualMemory;
 
+import Process.Process;
+
 public class Page implements Comparable<Page> {
     public static boolean COLOR = true;
+
+    private Process process;
 
     public static final String ANSI_RESET = "\u001B[0m";
     private static final int BEGIN_COLOR_CODE = 17;
@@ -93,5 +97,13 @@ public class Page implements Comparable<Page> {
             return idInt;
         }
         return idChar;
+    }
+
+    public Process getProcess() {
+        return process;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
     }
 }

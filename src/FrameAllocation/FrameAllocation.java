@@ -49,4 +49,8 @@ public abstract class FrameAllocation {
             System.out.println();
         }
     }
+
+    public PhysicalMemory getMemory() {
+        return memory;
+    }
 }

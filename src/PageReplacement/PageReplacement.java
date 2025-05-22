@@ -28,7 +28,7 @@ public abstract class PageReplacement {
 
     protected HashMap<Page, Integer> lastReference = new HashMap<>();
 
-    protected int iter;
+    protected int iter = 0;
 
     public PageReplacement(boolean print, boolean printDetails, PhysicalMemory memory){
         this.print = print;
@@ -41,6 +41,57 @@ public abstract class PageReplacement {
     }
 
     public abstract void replacePage();
+
+    public void runSingleIteration(Page[] refStr){
+        //memory.clear();
+        referenceString = refStr;
+
+        if(print){
+            System.out.printf("%s Run\n", name);
+        }
+
+        currentPage = referenceString[iter];
+        if(this instanceof LRU){
+            ((LRU) this).updateLastReference();
+        }
+
+        if(print){
+            System.out.println();
+            System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", name);
+            System.out.printf("%s " + memory + "\n", name);
+            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.idToString() + ANSI_RESET + "\n", name);
+        }
+
+        if(pageFault()){
+            if(print){
+                System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, name);
+            }
+            pageFaultCount++;
+
+            checkIfTrashingHappened();
+
+            replacePage();
+        }
+        else{
+            if(print){
+                System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, name);
+            }
+
+            pageFaultInPreviousPage = false;
+        }
+
+        if(print){
+            System.out.println();
+            System.out.printf("%s End\n", name);
+            System.out.printf("%s " + memory + "\n", name);
+
+            System.out.println();
+            System.out.println("-".repeat(100));
+            System.out.println();
+        }
+
+        iter++;
+    }
 
     public void run(Page[] refStr){
         memory.clear();

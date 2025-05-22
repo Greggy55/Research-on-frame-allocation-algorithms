@@ -3,10 +3,13 @@ package Memory.VirtualMemory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import Process.Process;
 
 public class VirtualMemory {
     public static boolean INT_TYPE = true;
     public static int colorCode = 15;
+
+    private Process process;
 
     private static int pageId = 1;
 
@@ -34,6 +37,22 @@ public class VirtualMemory {
         }
     }
 
+    public VirtualMemory(int totalNumberOfPages, Process process) {
+        this.totalNumberOfPages = totalNumberOfPages;
+        pageArray = new Page[totalNumberOfPages];
+        used.add(emptyChar);
+
+        setProcess(process);
+
+        colorCode += 5;
+        if(INT_TYPE){
+            generateIntPages();
+        }
+        else{
+            generateCharPages();
+        }
+    }
+
     public static int getColorCode() {
         return colorCode;
     }
@@ -42,6 +61,10 @@ public class VirtualMemory {
         for(int i = 0; i < totalNumberOfPages; i++){
             pageArray[i] = new Page(i + pageId);
             pageArray[i].setColorCode(colorCode);
+            if(process == null){
+                throw new RuntimeException("Process is null");
+            }
+            pageArray[i].setProcess(process);
         }
         pageId += totalNumberOfPages;
     }
@@ -59,6 +82,7 @@ public class VirtualMemory {
 
             pageArray[i] = new Page(ch);
             pageArray[i].setColorCode(colorCode);
+            pageArray[i].setProcess(process);
             used.add(ch);
         }
     }
@@ -124,5 +148,13 @@ public class VirtualMemory {
 
     public String referenceStringToString(){
         return Arrays.toString(referenceString);
+    }
+
+    public Process getProcess() {
+        return process;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
     }
 }

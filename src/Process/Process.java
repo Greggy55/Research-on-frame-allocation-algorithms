@@ -42,12 +42,12 @@ public class Process {
         this.localityLevel = localityLevel;
         this.localityFactor = localityFactor;
 
-        virtualMemory = new VirtualMemory(totalNumberOfPages);
+        virtualMemory = new VirtualMemory(totalNumberOfPages, this);
         physicalMemory = new PhysicalMemory(numberOfFrames);
 
         colorCode = VirtualMemory.getColorCode();
 
-        lru = new LRU(false, false, physicalMemory);
+        lru = new LRU(true, false, physicalMemory);
     }
 
     public int getColorCode() {
@@ -61,6 +61,10 @@ public class Process {
 
     public void runLRU(){
         lru.run(virtualMemory.getReferenceString());
+    }
+
+    public void runSingleIterationLRU(){
+        lru.runSingleIteration(virtualMemory.getReferenceString());
     }
 
     public void generateReferenceString(){
