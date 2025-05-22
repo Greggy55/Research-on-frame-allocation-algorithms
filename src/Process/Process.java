@@ -112,4 +112,8 @@ public class Process {
     public String toString() {
         return "P:\tPages: " + pagesToString() + "\n\tRefStr: " + referenceStringToString();
     }
+
+    public void resetLRU(boolean printLRU){
+        lru = new LRU(printLRU, false, physicalMemory);
+    }
 }

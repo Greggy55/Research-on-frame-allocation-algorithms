@@ -14,7 +14,10 @@ public class Simulation {
 
     private final Random rand = new Random();
 
-    private final boolean print;
+    private final boolean printEqual;
+    private final boolean printProportional;
+    private final boolean printPFFControl;
+    private final boolean printZoneModel;
 
     private int globalReferenceStringLength = 0;
     private final int totalNumberOfFrames;
@@ -28,6 +31,7 @@ public class Simulation {
     private Page[] globalReferenceString;
 
     private FrameAllocation frameAllocation;
+    private PhysicalMemory memory;
 
     private final int localityLevel = 12;
     private final double localityFactor = 0.8;
@@ -39,16 +43,24 @@ public class Simulation {
             int minNumberOfPages,
             int maxNumberOfPages,
 
-            boolean print
+            boolean printEqual,
+            boolean printProportional,
+            boolean printPFFControl,
+            boolean printZoneModel
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
         this.maxReferenceStringLength = Math.max(maxReferenceStringLength, maxNumberOfPages+1);
         this.numberOfProcesses = numberOfProcesses;
         this.minNumberOfPages = minNumberOfPages;
         this.maxNumberOfPages = maxNumberOfPages;
-        this.print = print;
+
+        this.printEqual = printEqual;
+        this.printProportional = printProportional;
+        this.printPFFControl = printPFFControl;
+        this.printZoneModel = printZoneModel;
 
         this.processes = new Process[numberOfProcesses];
+        this.memory = new PhysicalMemory(totalNumberOfFrames);
     }
 
     public void start(){
@@ -62,17 +74,37 @@ public class Simulation {
         System.out.println("Global: " + Arrays.toString(globalReferenceString));
         System.out.println();
 
-        PhysicalMemory memory = new PhysicalMemory(totalNumberOfFrames);
 
-        frameAllocation = new Equal(print, print, processes, memory, globalReferenceString);
+        reset(printEqual);
+
+        frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
         frameAllocation.run();
         for(int i = 0; i < globalReferenceString.length; i++){
             Process process = globalReferenceString[i].getProcess();
             process.runSingleIterationLRU();
-            if(print){
+            if(printEqual){
                 System.out.println(frameAllocation.getMemory());
             }
+        }
 
+        reset(false);
+
+        frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
+        frameAllocation.run();
+        for(int i = 0; i < globalReferenceString.length; i++){
+            Process process = globalReferenceString[i].getProcess();
+            process.runSingleIterationLRU();
+            if(false){
+                System.out.println(frameAllocation.getMemory());
+            }
+        }
+    }
+
+    private void reset(boolean printLRU) {
+        memory.clear();
+        for (Page page : globalReferenceString) {
+            Process process = page.getProcess();
+            process.resetLRU(printLRU);
         }
     }
 

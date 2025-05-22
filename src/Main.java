@@ -17,7 +17,10 @@ public class Main {
         int minNumberOfPages = 3;
         int maxNumberOfPages = 10;
 
-        boolean print = true;
+        boolean printEqual = true;
+        boolean printProportional = false;
+        boolean printPFFControl = false;
+        boolean printZoneModel = false;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
@@ -26,7 +29,10 @@ public class Main {
                 minNumberOfPages,
                 maxNumberOfPages,
 
-                print
+                printEqual,
+                printProportional,
+                printPFFControl,
+                printZoneModel
         );
 
         simulation.start();
