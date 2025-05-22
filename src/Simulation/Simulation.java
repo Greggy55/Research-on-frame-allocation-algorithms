@@ -12,8 +12,9 @@ public class Simulation {
 
     private final Random rand = new Random();
 
+    private int globalReferenceStringLength = 0;
     private final int totalNumberOfFrames;
-    private final int totalGlobalReferenceStringLength;
+    private final int maxReferenceStringLength;
     private final int minNumberOfPages;
     private final int maxNumberOfPages;
 
@@ -27,19 +28,18 @@ public class Simulation {
 
     public Simulation(
             int totalNumberOfFrames,
-            int totalGlobalReferenceStringLength,
+            int maxReferenceStringLength,
             int numberOfProcesses,
             int minNumberOfPages,
             int maxNumberOfPages
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
-        this.totalGlobalReferenceStringLength = totalGlobalReferenceStringLength;
+        this.maxReferenceStringLength = Math.max(maxReferenceStringLength, maxNumberOfPages+1);
         this.numberOfProcesses = numberOfProcesses;
         this.minNumberOfPages = minNumberOfPages;
         this.maxNumberOfPages = maxNumberOfPages;
 
         this.processes = new Process[numberOfProcesses];
-        this.globalReferenceString = new Page[totalGlobalReferenceStringLength];
     }
 
     public void start(){
@@ -56,7 +56,8 @@ public class Simulation {
     public void generateProcesses(){
         for(int i = 0; i < numberOfProcesses; i++) {
             int totalNumberOfPages = rand.nextInt(minNumberOfPages, maxNumberOfPages);
-            int referenceStringLength = totalGlobalReferenceStringLength / numberOfProcesses;
+            int referenceStringLength = rand.nextInt(maxNumberOfPages+1, maxReferenceStringLength);
+            globalReferenceStringLength += referenceStringLength;
 
             Process process = new Process(
                     1,
@@ -72,7 +73,8 @@ public class Simulation {
     }
 
     public void createGlobalReferenceString(){
-        for(int i = 0; i < totalGlobalReferenceStringLength; i++){
+        globalReferenceString = new Page[globalReferenceStringLength];
+        for(int i = 0; i < globalReferenceStringLength; i++){
             // wybór procesu (losowanie)
             int processIndex = rand.nextInt(numberOfProcesses);
             Process process = processes[processIndex];

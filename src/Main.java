@@ -12,14 +12,14 @@ public class Main {
         VirtualMemory.INT_TYPE = true;
 
         int totalNumberOfFrames = 30;
-        int totalGlobalReferenceStringLength = 200;
+        int maxReferenceStringLength = 100;
         int numberOfProcesses = 5;
         int minNumberOfPages = 3;
         int maxNumberOfPages = 10;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
-                totalGlobalReferenceStringLength,
+                maxReferenceStringLength,
                 numberOfProcesses,
                 minNumberOfPages,
                 maxNumberOfPages
