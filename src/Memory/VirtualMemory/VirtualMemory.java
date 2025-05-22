@@ -31,6 +31,7 @@ public class VirtualMemory {
         else{
             generateCharPages();
         }
+        colorCode += 5;
     }
 
     private void generateIntPages() {
@@ -39,7 +40,6 @@ public class VirtualMemory {
             pageArray[i].setColorCode(colorCode);
         }
         pageId += totalNumberOfPages;
-        colorCode += 5;
     }
 
     private void generateCharPages() {
@@ -54,6 +54,7 @@ public class VirtualMemory {
             } while(used.contains(ch) || isInvalid(ch));
 
             pageArray[i] = new Page(ch);
+            pageArray[i].setColorCode(colorCode);
             used.add(ch);
         }
     }

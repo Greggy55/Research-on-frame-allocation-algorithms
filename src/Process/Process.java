@@ -89,6 +89,6 @@ public class Process {
 
     @Override
     public String toString() {
-        return "Pages: " + pagesToString() + "\nRefStr: " + referenceStringToString();
+        return "P:\tPages: " + pagesToString() + "\n\tRefStr: " + referenceStringToString();
     }
 }

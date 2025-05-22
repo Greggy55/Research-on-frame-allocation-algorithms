@@ -37,7 +37,7 @@ public abstract class Algorithm {
     }
 
     public void updateNumberOfFrames(int numberOfFrames){
-        this.memory.updateNumberOfFrames(numberOfFrames);
+        memory.updateNumberOfFrames(numberOfFrames);
     }
 
     public abstract void replacePage();
