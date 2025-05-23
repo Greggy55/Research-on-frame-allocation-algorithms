@@ -23,6 +23,7 @@ public class Simulation {
 
     private int globalReferenceStringLength = 0;
     private final int totalNumberOfFrames;
+    private final int minReferenceStringLength;
     private final int maxReferenceStringLength;
     private final int minNumberOfPages;
     private final int maxNumberOfPages;
@@ -40,6 +41,7 @@ public class Simulation {
 
     public Simulation(
             int totalNumberOfFrames,
+            int minReferenceStringLength,
             int maxReferenceStringLength,
             int numberOfProcesses,
             int minNumberOfPages,
@@ -53,6 +55,7 @@ public class Simulation {
             boolean printZoneModel
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
+        this.minReferenceStringLength = minReferenceStringLength;
         this.maxReferenceStringLength = Math.max(maxReferenceStringLength, maxNumberOfPages+1);
         this.numberOfProcesses = numberOfProcesses;
         this.minNumberOfPages = minNumberOfPages;
@@ -126,7 +129,7 @@ public class Simulation {
     public void generateProcesses(){
         for(int i = 0; i < numberOfProcesses; i++) {
             int totalNumberOfPages = rand.nextInt(minNumberOfPages, maxNumberOfPages);
-            int referenceStringLength = rand.nextInt(totalNumberOfPages+1, maxReferenceStringLength);
+            int referenceStringLength = rand.nextInt(minReferenceStringLength, maxReferenceStringLength);
             globalReferenceStringLength += referenceStringLength;
 
             Process process = new Process(
