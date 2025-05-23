@@ -100,4 +100,15 @@ public class PhysicalMemory {
         }
         return builder.toString();
     }
+
+    public Frame removeLastFrame() {
+        numberOfFrames--;
+        Frame lastFrame = frameArray[numberOfFrames];
+        Frame[] newFrameArray = new Frame[numberOfFrames];
+
+        System.arraycopy(frameArray, 0, newFrameArray, 0, numberOfFrames);
+        frameArray = newFrameArray;
+
+        return lastFrame;
+    }
 }
