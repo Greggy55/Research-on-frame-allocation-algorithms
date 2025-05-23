@@ -112,6 +112,11 @@ public class Simulation {
         for (Page page : globalReferenceString) {
             Process process = page.getProcess();
             process.runSingleIterationLRU();
+
+            if(frameAllocation.isDynamic()){
+                frameAllocation.dynamicAllocate();
+            }
+
             if (printAllocation) {
                 frameAllocation.printMemory();
             }

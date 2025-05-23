@@ -16,6 +16,8 @@ public abstract class FrameAllocation {
     protected boolean print;
     protected boolean printDetails;
 
+    protected boolean isDynamic;
+
     protected final Process[] processes;
     protected final Page[] globalReferenceString;
     protected final PhysicalMemory memory;
@@ -28,7 +30,12 @@ public abstract class FrameAllocation {
         this.globalReferenceString = globalReferenceString;
     }
 
-    public abstract void allocate();
+    public abstract void staticAllocate();
+    public abstract void dynamicAllocate();
+
+    public boolean isDynamic(){
+        return isDynamic;
+    }
 
     public void run(){
         memory.clear();
@@ -40,7 +47,7 @@ public abstract class FrameAllocation {
             System.out.printf("%s Run\n", name);
         }
 
-        allocate();
+        staticAllocate();
 
         if(print){
             System.out.println();

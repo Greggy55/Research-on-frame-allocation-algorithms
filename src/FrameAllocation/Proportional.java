@@ -10,10 +10,11 @@ public class Proportional extends FrameAllocation{
     public Proportional(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
         name = ANSI_GRAY + "Proportional" + ANSI_RESET;
+        isDynamic = false;
     }
 
     @Override
-    public void allocate() {
+    public void staticAllocate() {
         int frameIndex = 0;
         final int totalNumberOfPages = getTotalNumberOfPages();
         Frame[] globalFrames = memory.getFrameArray();
@@ -42,6 +43,11 @@ public class Proportional extends FrameAllocation{
             globalFrames[globalFrames.length - 1].setProcess(processes[processes.length - 1]);
             //System.out.println("JEST: " + memory);
         }
+    }
+
+    @Override
+    public void dynamicAllocate() {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
     }
 
     private static int getRatio(Process process, Frame[] globalFrames, int totalNumberOfPages) {

@@ -11,10 +11,11 @@ public class Equal extends FrameAllocation{
     public Equal(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
         name = ANSI_GRAY + "Equal" + ANSI_RESET;
+        isDynamic = false;
     }
 
     @Override
-    public void allocate() {
+    public void staticAllocate() {
         int frameIndex = 0;
         Frame[] globalFrames = memory.getFrameArray();
         int numberOfFrames = globalFrames.length / processes.length;
@@ -30,5 +31,10 @@ public class Equal extends FrameAllocation{
 
             frameIndex += numberOfFrames;
         }
+    }
+
+    @Override
+    public void dynamicAllocate() {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
     }
 }

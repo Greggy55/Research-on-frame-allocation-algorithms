@@ -1,5 +1,6 @@
 package PageReplacement;
 
+import FrameAllocation.PFFControl;
 import Memory.PhysicalMemory.Frame;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
@@ -15,13 +16,12 @@ public abstract class PageReplacement {
 
     public static final int DELTA_T = 10;
     public static final int CHECK_PFF = 5;
-    public static final int UPPER_TRASHING_LIMIT = 7;
+    public static final int UPPER_TRASHING_LIMIT = PFFControl.UPPER_PFF_LIMIT;
 
     private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
     
-    protected static int totalPageFaultCount = 0;
-    protected static int totalThrashingCount = 0;
-    //protected boolean pageFaultInPreviousPage = false;
+    private static int totalPageFaultCount = 0;
+    private static int totalThrashingCount = 0;
 
     protected String name;
     protected boolean print;
@@ -59,8 +59,8 @@ public abstract class PageReplacement {
         if(checkPFF()){
             if(pageFaultDetector.getPageFaultFrequency() >= UPPER_TRASHING_LIMIT){
                 totalThrashingCount++;
-                System.out.println(ANSI_RED+"TRASHING HAPPENED"+ANSI_RESET);
-                System.out.println(pageFaultDetector.getPageFaultsToString());
+                //System.out.println(ANSI_RED+"TRASHING HAPPENED"+ANSI_RESET);
+                //System.out.println(pageFaultDetector.getPageFaultsToString());
             }
         }
 
