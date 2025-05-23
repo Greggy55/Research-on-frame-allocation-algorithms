@@ -25,6 +25,9 @@ public class PhysicalMemory {
     }
 
     public int indexOfPage(Page page){
+        if(numberOfFrames != frameArray.length){
+            throw new IllegalStateException("Number of frames is not equal to the number of frames");
+        }
         for(int i = 0; i < numberOfFrames; i++){
             if(frameArray[i].containsPage()
                     && page.sameIdAs(frameArray[i].getPage())){
@@ -35,12 +38,18 @@ public class PhysicalMemory {
     }
 
     public void clear(){
+        if(numberOfFrames != frameArray.length){
+            throw new IllegalStateException("Number of frames is not equal to the number of frames");
+        }
         for(int i = 0; i < numberOfFrames; i++){
             frameArray[i].clear();
         }
     }
 
     public boolean isFull(){
+        if(numberOfFrames != frameArray.length){
+            throw new IllegalStateException("Number of frames is not equal to the number of frames");
+        }
         for(int i = 0; i < numberOfFrames; i++){
             if(!frameArray[i].containsPage()){
                 return false;
@@ -50,6 +59,9 @@ public class PhysicalMemory {
     }
 
     public int findEmptyFrame(){
+        if(numberOfFrames != frameArray.length){
+            throw new IllegalStateException("Number of frames is not equal to the number of frames");
+        }
         for(int i = 0; i < numberOfFrames; i++){
             if(!frameArray[i].containsPage()){
                 return i;
@@ -75,6 +87,9 @@ public class PhysicalMemory {
     }
 
     public Frame getFrame(Page page) {
+        if(numberOfFrames != frameArray.length){
+            throw new IllegalStateException("Number of frames is not equal to the number of frames");
+        }
         for(int i = 0; i < numberOfFrames; i++){
             if(frameArray[i].containsPage()){
                 if(page.sameIdAs(frameArray[i].getPage())){
@@ -110,5 +125,17 @@ public class PhysicalMemory {
         frameArray = newFrameArray;
 
         return lastFrame;
+    }
+
+    public void addFrame(Frame frame) {
+        Frame[] newFrameArray = new Frame[numberOfFrames + 1];
+
+        if (numberOfFrames >= 0) {
+            System.arraycopy(frameArray, 0, newFrameArray, 0, numberOfFrames);
+        }
+        newFrameArray[numberOfFrames] = frame;
+        numberOfFrames++;
+
+        frameArray = newFrameArray;
     }
 }

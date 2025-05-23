@@ -125,6 +125,10 @@ public class Process {
         return lru.getPFF();
     }
 
+    public boolean canGetPFF(){
+        return lru.canGetPFF();
+    }
+
     public boolean canGiveFrame() {
         return canGiveFrame;
     }
@@ -149,8 +153,18 @@ public class Process {
         isHalted = halted;
     }
 
-    public void giveFrameTo(Process process){
+    public boolean giveFrameTo(Process process){
+        if(this.numberOfFrames <= 1){
+            return false;
+        }
         this.numberOfFrames--;
         process.numberOfFrames++;
+
+        Frame transmittedFrame = this.physicalMemory.removeLastFrame();
+        transmittedFrame.clear();
+        transmittedFrame.setProcess(process);
+        process.physicalMemory.addFrame(transmittedFrame);
+
+        return true;
     }
 }

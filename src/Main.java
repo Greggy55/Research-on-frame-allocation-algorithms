@@ -21,11 +21,11 @@ public class Main {
         int minNumberOfPages = 5;
         int maxNumberOfPages = 15;
 
-        boolean printLRU = true;
+        boolean printLRU = false;
 
-        boolean printEqual = true;
+        boolean printEqual = false;
         boolean printProportional = false;
-        boolean printPFFControl = false;
+        boolean printPFFControl = true;
         boolean printZoneModel = false;
 
         Simulation simulation = new Simulation(

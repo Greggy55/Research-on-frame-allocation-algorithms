@@ -96,10 +96,10 @@ public class Simulation {
         runLRU(printProportional);
 
         // ---------- PFF Control ----------
-//        reset(printLRU && printPFFControl);
-//        frameAllocation = new Equal(printPFFControl, printPFFControl, processes, memory, globalReferenceString);
-//        frameAllocation.run();
-//        runLRU(printPFFControl);
+        reset(printLRU && printPFFControl);
+        frameAllocation = new PFFControl(printPFFControl, printPFFControl, processes, memory, globalReferenceString);
+        frameAllocation.run();
+        runLRU(printPFFControl);
 
         // ---------- Zone Model ----------
 //        reset(printLRU && printZoneModel);

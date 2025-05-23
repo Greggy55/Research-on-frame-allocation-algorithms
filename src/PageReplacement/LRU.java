@@ -34,6 +34,9 @@ public class LRU extends PageReplacement {
 
     public Frame searchForFrameWithLeastRecentlyUsedPage() {
         Frame[] frames = memory.getFrameArray();
+        if(frames.length == 0){
+            return null;
+        }
         Frame resultFrame = frames[0];
         int resultFrameLastReference = lastReference.get(resultFrame.getPage());
 

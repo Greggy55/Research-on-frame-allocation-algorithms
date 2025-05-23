@@ -215,4 +215,8 @@ public abstract class PageReplacement {
     public int getPFF() {
         return pageFaultDetector.getPageFaultFrequency();
     }
+
+    public boolean canGetPFF(){
+        return pageFaultDetector.isReady();
+    }
 }
