@@ -82,6 +82,7 @@ public class VirtualMemory {
 
             pageArray[i] = new Page(ch);
             pageArray[i].setProcess(process);
+            pageArray[i].setColorCode(colorCode);
             used.add(ch);
         }
     }
