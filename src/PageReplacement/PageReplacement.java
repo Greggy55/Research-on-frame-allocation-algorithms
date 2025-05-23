@@ -13,9 +13,12 @@ public abstract class PageReplacement {
     public static final String ANSI_GREEN = "\u001B[38;5;120m";
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
 
-    protected static int pageFaultCount = 0;
-    protected static int totalThrashingTime = 0;
-    protected static boolean pageFaultInPreviousPage = false;
+    public static final int DELTA_T = 10;
+    public static final int CHECK_PFF = 5;
+
+    protected int pageFaultCount = 0;
+    protected int totalThrashingTime = 0;
+    protected boolean pageFaultInPreviousPage = false;
 
     protected String name;
     protected boolean print;
@@ -48,6 +51,10 @@ public abstract class PageReplacement {
 
         if(print){
             System.out.printf("%s Run\n", name);
+        }
+
+        if(checkPFF()){
+
         }
 
         currentPage = referenceString[iter];
@@ -91,6 +98,10 @@ public abstract class PageReplacement {
         }
 
         iter++;
+    }
+
+    private boolean checkPFF() {
+        return iter % CHECK_PFF == 0 && iter > CHECK_PFF;
     }
 
     public void run(Page[] refStr){
