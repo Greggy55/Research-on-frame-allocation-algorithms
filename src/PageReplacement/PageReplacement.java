@@ -15,10 +15,13 @@ public abstract class PageReplacement {
 
     public static final int DELTA_T = 10;
     public static final int CHECK_PFF = 5;
+    public static final int UPPER_TRASHING_LIMIT = 7;
 
-    protected int pageFaultCount = 0;
-    protected int totalThrashingTime = 0;
-    protected boolean pageFaultInPreviousPage = false;
+    private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
+    
+    protected static int totalPageFaultCount = 0;
+    protected static int totalThrashingCount = 0;
+    //protected boolean pageFaultInPreviousPage = false;
 
     protected String name;
     protected boolean print;
@@ -54,7 +57,11 @@ public abstract class PageReplacement {
         }
 
         if(checkPFF()){
-
+            if(pageFaultDetector.getPageFaultFrequency() >= UPPER_TRASHING_LIMIT){
+                totalThrashingCount++;
+                System.out.println(ANSI_RED+"TRASHING HAPPENED"+ANSI_RESET);
+                System.out.println(pageFaultDetector.getPageFaultsToString());
+            }
         }
 
         currentPage = referenceString[iter];
@@ -73,7 +80,8 @@ public abstract class PageReplacement {
             if(print){
                 System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, name);
             }
-            pageFaultCount++;
+            pageFaultDetector.registerPageFault(true);
+            totalPageFaultCount++;
 
             checkIfTrashingHappened();
 
@@ -84,7 +92,7 @@ public abstract class PageReplacement {
                 System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, name);
             }
 
-            pageFaultInPreviousPage = false;
+            pageFaultDetector.registerPageFault(false);
         }
 
         if(print){
@@ -101,7 +109,7 @@ public abstract class PageReplacement {
     }
 
     private boolean checkPFF() {
-        return iter % CHECK_PFF == 0 && iter > CHECK_PFF;
+        return iter % CHECK_PFF == 0 && pageFaultDetector.isReady();
     }
 
     public void run(Page[] refStr){
@@ -129,7 +137,7 @@ public abstract class PageReplacement {
                 if(print){
                     System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, name);
                 }
-                pageFaultCount++;
+                totalPageFaultCount++;
 
                 checkIfTrashingHappened();
 
@@ -140,7 +148,7 @@ public abstract class PageReplacement {
                     System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, name);
                 }
 
-                pageFaultInPreviousPage = false;
+                //pageFaultInPreviousPage = false;
             }
 
         }
@@ -177,12 +185,12 @@ public abstract class PageReplacement {
     }
 
     private void checkIfTrashingHappened() {
-        if(pageFaultInPreviousPage){
-            totalThrashingTime++;
-        }
-        else{
-            pageFaultInPreviousPage = true;
-        }
+//        if(pageFaultInPreviousPage){
+//            totalThrashingTime++;
+//        }
+//        else{
+//            pageFaultInPreviousPage = true;
+//        }
     }
 
     public boolean pageFault() {
@@ -193,8 +201,8 @@ public abstract class PageReplacement {
         final int dashes = 15;
         System.out.println();
         System.out.printf("%s %s %s\n", "-".repeat(dashes), name, "-".repeat(dashes - name.length() + ANSI_GRAY.length() + ANSI_RESET.length() + dashes/3));
-        System.out.printf("Page fault count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, pageFaultCount);
-        System.out.printf("Total trashing time: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalThrashingTime);
+        System.out.printf("Page fault count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalPageFaultCount);
+        System.out.printf("Total trashing count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalThrashingCount);
     }
 
     public void printReplacementFrame(Frame replacementFrame) {
