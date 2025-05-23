@@ -59,7 +59,7 @@ public abstract class PageReplacement {
             System.out.println();
             System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", name);
             System.out.printf("%s " + memory + "\n", name);
-            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.idToString() + ANSI_RESET + "\n", name);
+            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", name);
         }
 
         if(pageFault()){
@@ -111,7 +111,7 @@ public abstract class PageReplacement {
                 System.out.println();
                 System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", name);
                 System.out.printf("%s " + memory + "\n", name);
-                System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.idToString() + ANSI_RESET + "\n", name);
+                System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", name);
             }
 
             if(pageFault()){
