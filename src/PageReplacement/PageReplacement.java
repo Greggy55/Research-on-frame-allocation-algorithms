@@ -13,9 +13,9 @@ public abstract class PageReplacement {
     public static final String ANSI_GREEN = "\u001B[38;5;120m";
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
 
-    protected int pageFaultCount = 0;
-    protected int totalThrashingTime = 0;
-    protected boolean pageFaultInPreviousPage = false;
+    protected static int pageFaultCount = 0;
+    protected static int totalThrashingTime = 0;
+    protected static boolean pageFaultInPreviousPage = false;
 
     protected String name;
     protected boolean print;
