@@ -26,9 +26,26 @@ public class PFFControl extends FrameAllocation{
     }
 
     @Override
-    public void dynamicAllocate() {
+    public void dynamicAllocate(Process process) {
+        int PFF = process.getPFF();
 
+        if(PFF < LOWER_PFF_LIMIT) {
+            process.setCanGiveFrame(true);
+            process.setNeedsFrame(false);
+
+            for(Process p : processes) {
+                if(p.needsFrame()){
+
+                }
+            }
+        }
+        else if(PFF > UPPER_PFF_LIMIT) {
+            process.setCanGiveFrame(false);
+            process.setNeedsFrame(true);
+        }
+        else{
+            process.setCanGiveFrame(false);
+            process.setNeedsFrame(false);
+        }
     }
-
-
 }

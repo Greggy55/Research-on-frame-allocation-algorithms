@@ -12,6 +12,10 @@ public class Process {
 
     private final int colorCode;
 
+    private boolean canGiveFrame = false;
+    private boolean needsFrame = false;
+    private boolean isHalted = false;
+
     private int numberOfFrames;
     private final int totalNumberOfPages;
     private final int referenceStringLength;
@@ -115,5 +119,38 @@ public class Process {
 
     public void resetLRU(boolean printLRU){
         lru = new LRU(printLRU, false, physicalMemory);
+    }
+
+    public int getPFF(){
+        return lru.getPFF();
+    }
+
+    public boolean canGiveFrame() {
+        return canGiveFrame;
+    }
+
+    public void setCanGiveFrame(boolean canGiveFrame) {
+        this.canGiveFrame = canGiveFrame;
+    }
+
+    public boolean needsFrame() {
+        return needsFrame;
+    }
+
+    public void setNeedsFrame(boolean needsFrame) {
+        this.needsFrame = needsFrame;
+    }
+
+    public boolean isHalted() {
+        return isHalted;
+    }
+
+    public void setHalted(boolean halted) {
+        isHalted = halted;
+    }
+
+    public void giveFrameTo(Process process){
+        this.numberOfFrames--;
+        process.numberOfFrames++;
     }
 }

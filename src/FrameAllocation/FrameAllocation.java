@@ -31,7 +31,7 @@ public abstract class FrameAllocation {
     }
 
     public abstract void staticAllocate();
-    public abstract void dynamicAllocate();
+    public abstract void dynamicAllocate(Process process);
 
     public boolean isDynamic(){
         return isDynamic;

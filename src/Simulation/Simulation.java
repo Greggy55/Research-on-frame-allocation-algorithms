@@ -114,7 +114,7 @@ public class Simulation {
             process.runSingleIterationLRU();
 
             if(frameAllocation.isDynamic()){
-                frameAllocation.dynamicAllocate();
+                frameAllocation.dynamicAllocate(process);
             }
 
             if (printAllocation) {

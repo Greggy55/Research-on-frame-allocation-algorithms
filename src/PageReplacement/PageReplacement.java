@@ -211,4 +211,8 @@ public abstract class PageReplacement {
             System.out.printf("%s Replacement frame: %s\n", name, msg);
         }
     }
+
+    public int getPFF() {
+        return pageFaultDetector.getPageFaultFrequency();
+    }
 }
