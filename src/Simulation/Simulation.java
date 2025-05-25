@@ -122,7 +122,7 @@ public class Simulation {
 
             runLRUForSingleProcess(printAllocation, process);
 
-            while(!page.equals(process.getCurrentPage())){
+            while(!process.isSuspended() && !page.equals(process.getCurrentPage())){
                 suspendedPages.poll();
 
                 runLRUForSingleProcess(printAllocation, process);

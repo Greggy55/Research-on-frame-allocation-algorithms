@@ -15,6 +15,9 @@ public class WorkingSetModel extends FrameAllocation{
 
     private final FrameAllocation defaultAllocation;
 
+    private int numberOfRequiredFrames = 0;
+    private HashMap<Process, Integer> workingSetSize = new HashMap<Process, Integer>();
+
     public WorkingSetModel(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
 
@@ -44,16 +47,7 @@ public class WorkingSetModel extends FrameAllocation{
         Process[] processes = getActiveProcesses();
 
         System.out.println("Start dynamic allocate");
-        HashMap<Process, Integer> workingSetSize = new HashMap<Process, Integer>();
-        int numberOfRequiredFrames = 0;
-
-        System.out.println("Get WSSs");
-        for(Process p : processes){
-            int WSS = getWorkingSetSize(p);
-            System.out.println("WSS: " + WSS);
-            workingSetSize.put(p, WSS);
-            numberOfRequiredFrames += WSS;
-        }
+        updateWorkingSetSize(processes);
 
         System.out.println("Number of required frames: " + numberOfRequiredFrames);
         if(numberOfRequiredFrames <= memory.size()){
@@ -63,15 +57,30 @@ public class WorkingSetModel extends FrameAllocation{
                 allocateWSS(workingSetSize);
                 System.out.println(memory);
             }
+
+            Process[] suspendedProcesses = getSuspendedProcesses();
+            if(suspendedProcesses.length > 0){
+                System.out.println("-- Unsuspended process: " + suspendedProcesses[0]);
+                unsuspendProcess(suspendedProcesses[0], workingSetSize);
+            }
         }
         else{
             System.out.println("SUSPEND PROCESS");
             Process processToSuspend = findProcessWithTheLargestWSS(workingSetSize);
             System.out.println("Process to suspend: " + processToSuspend);
             suspendProcess(processToSuspend, workingSetSize);
-            for(Process p : processes){
-                System.out.println(Arrays.toString(p.getFrameArray()));
-            }
+        }
+    }
+
+    private void updateWorkingSetSize(Process[] processes) {
+        numberOfRequiredFrames = 0;
+
+        //System.out.println("Get WSSs");
+        for(Process p : processes){
+            int WSS = getWorkingSetSize(p);
+            //System.out.println("WSS: " + WSS);
+            workingSetSize.put(p, WSS);
+            numberOfRequiredFrames += WSS;
         }
     }
 
@@ -83,6 +92,18 @@ public class WorkingSetModel extends FrameAllocation{
             Process p = findProcessWithTheLargestWSS(workingSetSize);
             process.giveFrameTo(p, true);
         }
+    }
+
+    public void unsuspendProcess(Process process, HashMap<Process, Integer> workingSetSize){
+        Process p = findProcessWithTheLargestWSS(workingSetSize);
+        while(!p.giveFrameTo(process)){
+            updateWorkingSetSize(getActiveProcesses());
+            p = findProcessWithTheLargestWSS(workingSetSize);
+            System.out.println("oui");
+        }
+        process.setSuspended(false);
+        updateWorkingSetSize(getActiveProcesses());
+        allocateWSS(workingSetSize);
     }
 
     public Process findProcessWithTheLargestWSS(HashMap<Process, Integer> workingSetSize){

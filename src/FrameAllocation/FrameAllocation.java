@@ -80,4 +80,15 @@ public abstract class FrameAllocation {
 
         return activeProcesses.toArray(new Process[0]);
     }
+
+    public Process[] getSuspendedProcesses() {
+        ArrayList<Process> suspendedProcesses = new ArrayList<Process>();
+        for(Process process : processes){
+            if(process.isSuspended()){
+                suspendedProcesses.add(process);
+            }
+        }
+
+        return suspendedProcesses.toArray(new Process[0]);
+    }
 }
