@@ -18,6 +18,8 @@ public abstract class PageReplacement {
     public static final int CHECK = DELTA_T / 4;
     public static final int UPPER_TRASHING_LIMIT = PFFControl.UPPER_PFF_LIMIT;
 
+    public static boolean PRINT_REFERENCE = false;
+
     private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
     
     private static int totalPageFaultCount = 0;
@@ -78,6 +80,9 @@ public abstract class PageReplacement {
             System.out.println();
             System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", getName());
             System.out.printf("%s " + memory + "\n", getName());
+            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
+        }
+        else if(PRINT_REFERENCE){
             System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
         }
 

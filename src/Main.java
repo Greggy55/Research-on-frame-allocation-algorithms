@@ -1,6 +1,7 @@
 import Memory.PhysicalMemory.Frame;
 import Memory.VirtualMemory.Page;
 import Memory.VirtualMemory.VirtualMemory;
+import PageReplacement.PageReplacement;
 import Simulation.Simulation;
 
 public class Main {
@@ -11,15 +12,17 @@ public class Main {
 
         VirtualMemory.INT_TYPE = true;
 
-        int totalNumberOfFrames = 10;
+        PageReplacement.PRINT_REFERENCE = true;
+
+        int totalNumberOfFrames = 20;
 
         int minReferenceStringLength = 100;
         int maxReferenceStringLength = 101;
 
-        int numberOfProcesses = 3;
+        int numberOfProcesses = 5;
 
-        int minNumberOfPages = 3;
-        int maxNumberOfPages = 15;
+        int minNumberOfPages = 10;
+        int maxNumberOfPages = 35;
 
         boolean printLRU = false;
 

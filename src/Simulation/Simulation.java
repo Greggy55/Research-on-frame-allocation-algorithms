@@ -132,10 +132,10 @@ public class Simulation {
 
     private void runLRUForSingleProcess(boolean printAllocation, Process process) {
         if(frameAllocation instanceof WorkingSetModel){
-            System.out.println("{");
+            //System.out.println("{");
             //System.out.println(process);
-            System.out.println(suspendedPages);
-            System.out.println("sus: " + process.isSuspended() + "\n}");
+            //System.out.println(suspendedPages);
+            //System.out.println("sus: " + process.isSuspended() + "\n}");
         }
         process.runSingleIterationLRU();
 
