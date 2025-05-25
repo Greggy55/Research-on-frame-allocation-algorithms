@@ -19,7 +19,7 @@ public class Simulation {
     private final boolean printEqual;
     private final boolean printProportional;
     private final boolean printPFFControl;
-    private final boolean printZoneModel;
+    private final boolean printWorkingSetModel;
 
     private int globalReferenceStringLength = 0;
     private final int totalNumberOfFrames;
@@ -52,7 +52,7 @@ public class Simulation {
             boolean printEqual,
             boolean printProportional,
             boolean printPFFControl,
-            boolean printZoneModel
+            boolean printWorkingSetModel
     ) {
         this.totalNumberOfFrames = totalNumberOfFrames;
         this.minReferenceStringLength = minReferenceStringLength;
@@ -66,7 +66,7 @@ public class Simulation {
         this.printEqual = printEqual;
         this.printProportional = printProportional;
         this.printPFFControl = printPFFControl;
-        this.printZoneModel = printZoneModel;
+        this.printWorkingSetModel = printWorkingSetModel;
 
         this.processes = new Process[numberOfProcesses];
         this.memory = new PhysicalMemory(totalNumberOfFrames);
@@ -101,11 +101,11 @@ public class Simulation {
         frameAllocation.run();
         runLRU(printPFFControl);
 
-        // ---------- Zone Model ----------
-//        reset(printLRU && printZoneModel);
-//        frameAllocation = new Equal(printZoneModel, printZoneModel, processes, memory, globalReferenceString);
+        // ---------- Working Set Model ----------
+//        reset(printLRU && printWorkingSetModel);
+//        frameAllocation = new Equal(printWorkingSetModel, printWorkingSetModel, processes, memory, globalReferenceString);
 //        frameAllocation.run();
-//        runLRU(printZoneModel);
+//        runLRU(printWorkingSetModel);
     }
 
     private void runLRU(boolean printAllocation) {

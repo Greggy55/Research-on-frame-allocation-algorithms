@@ -7,7 +7,11 @@ public class LRU extends PageReplacement {
 
     public LRU(boolean print, boolean printDetails, PhysicalMemory memory) {
         super(print, printDetails, memory);
-        name = ANSI_GRAY + "LRU" + ANSI_RESET;
+    }
+
+    @Override
+    public String getName() {
+        return ANSI_GRAY + "LRU" + ANSI_RESET;
     }
 
     @Override
@@ -18,7 +22,7 @@ public class LRU extends PageReplacement {
             Frame replacementFrame = searchForFrameWithLeastRecentlyUsedPage();
             printReplacementFrame(replacementFrame);
 
-            assert replacementFrame != null: "(%s) Replacement frame is null\n".formatted(name);
+            assert replacementFrame != null: "(%s) Replacement frame is null\n".formatted(getName());
             replacementFrame.setPage(currentPage);
         }
         else{
@@ -28,7 +32,7 @@ public class LRU extends PageReplacement {
         }
 
         if(print && printDetails) {
-            System.out.printf("%s Last reference:\t" + lastReference + "\n", name);
+            System.out.printf("%s Last reference:\t" + lastReference + "\n", getName());
         }
     }
 

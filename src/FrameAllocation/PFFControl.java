@@ -15,10 +15,18 @@ public class PFFControl extends FrameAllocation{
 
     public PFFControl(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
-        name = ANSI_GRAY + "PFF Control" + ANSI_RESET;
-        isDynamic = true;
 
         defaultAllocation = new Equal(print, printDetails, processes, memory, globalReferenceString);
+    }
+
+    @Override
+    public String getName() {
+        return ANSI_GRAY + "PFF Control" + ANSI_RESET;
+    }
+
+    @Override
+    public boolean isDynamic() {
+        return true;
     }
 
     @Override
@@ -36,14 +44,6 @@ public class PFFControl extends FrameAllocation{
         if(PFF < LOWER_PFF_LIMIT) {
             process.setCanGiveFrame(true);
             process.setNeedsFrame(false);
-
-//            for(Process p : processes) {
-//                if(p.needsFrame()) {
-//                    if(process.giveFrameTo(p)){
-//                        break;
-//                    }
-//                }
-//            }
         }
         else if(PFF > UPPER_PFF_LIMIT) {
             process.setCanGiveFrame(false);

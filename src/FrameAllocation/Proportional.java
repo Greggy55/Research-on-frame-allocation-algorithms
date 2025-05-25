@@ -9,8 +9,16 @@ import Process.Process;
 public class Proportional extends FrameAllocation{
     public Proportional(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
-        name = ANSI_GRAY + "Proportional" + ANSI_RESET;
-        isDynamic = false;
+    }
+
+    @Override
+    public String getName() {
+        return ANSI_GRAY + "Proportional" + ANSI_RESET;
+    }
+
+    @Override
+    public boolean isDynamic() {
+        return false;
     }
 
     @Override

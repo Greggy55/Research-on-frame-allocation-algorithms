@@ -13,11 +13,8 @@ public abstract class FrameAllocation {
     public static final String ANSI_GREEN = "\u001B[38;5;120m";
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
 
-    protected String name;
     protected boolean print;
     protected boolean printDetails;
-
-    protected boolean isDynamic;
 
     protected final Process[] processes;
     protected final Page[] globalReferenceString;
@@ -31,12 +28,11 @@ public abstract class FrameAllocation {
         this.globalReferenceString = globalReferenceString;
     }
 
+    public abstract String getName();
+    public abstract boolean isDynamic();
+
     public abstract void staticAllocate();
     public abstract void dynamicAllocate(Process process);
-
-    public boolean isDynamic(){
-        return isDynamic;
-    }
 
     public void run(){
         memory.clear();
@@ -45,14 +41,14 @@ public abstract class FrameAllocation {
             System.out.println();
             System.out.println("-".repeat(100));
             System.out.println();
-            System.out.printf("%s Run\n", name);
+            System.out.printf("%s Run\n", getName());
         }
 
         staticAllocate();
 
         if(print){
             System.out.println();
-            System.out.printf("%s " + memory + "\n", name);
+            System.out.printf("%s " + memory + "\n", getName());
         }
     }
 
@@ -61,7 +57,7 @@ public abstract class FrameAllocation {
     }
 
     public void printMemory(){
-        System.out.println(name + " " + memory);
+        System.out.println(getName() + " " + memory);
     }
 
     public void allocateFreeFrames(Frame[] globalFrames){

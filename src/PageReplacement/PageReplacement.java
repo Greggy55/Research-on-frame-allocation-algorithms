@@ -23,7 +23,6 @@ public abstract class PageReplacement {
     private static int totalPageFaultCount = 0;
     private static int totalThrashingCount = 0;
 
-    protected String name;
     protected boolean print;
     protected boolean printDetails;
 
@@ -42,6 +41,8 @@ public abstract class PageReplacement {
         this.memory = memory;
     }
 
+    public abstract String getName();
+
     public void updateNumberOfFrames(int numberOfFrames){
         memory.updateNumberOfFrames(numberOfFrames);
     }
@@ -53,7 +54,7 @@ public abstract class PageReplacement {
         referenceString = refStr;
 
         if(print){
-            System.out.printf("%s Run\n", name);
+            System.out.printf("%s Run\n", getName());
         }
 
         if(checkPFF()){
@@ -71,14 +72,14 @@ public abstract class PageReplacement {
 
         if(print){
             System.out.println();
-            System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", name);
-            System.out.printf("%s " + memory + "\n", name);
-            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", name);
+            System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", getName());
+            System.out.printf("%s " + memory + "\n", getName());
+            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
         }
 
         if(pageFault()){
             if(print){
-                System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, name);
+                System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, getName());
             }
             pageFaultDetector.registerPageFault(true);
             totalPageFaultCount++;
@@ -89,7 +90,7 @@ public abstract class PageReplacement {
         }
         else{
             if(print){
-                System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, name);
+                System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, getName());
             }
 
             pageFaultDetector.registerPageFault(false);
@@ -97,8 +98,8 @@ public abstract class PageReplacement {
 
         if(print){
             System.out.println();
-            System.out.printf("%s End\n", name);
-            System.out.printf("%s " + memory + "\n", name);
+            System.out.printf("%s End\n", getName());
+            System.out.printf("%s " + memory + "\n", getName());
 
             System.out.println();
             System.out.println("-".repeat(100));
@@ -117,7 +118,7 @@ public abstract class PageReplacement {
         referenceString = refStr;
 
         if(print){
-            System.out.printf("%s Run\n", name);
+            System.out.printf("%s Run\n", getName());
         }
 
         for(iter = 0; iter < referenceString.length; iter++){
@@ -128,14 +129,14 @@ public abstract class PageReplacement {
 
             if(print){
                 System.out.println();
-                System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", name);
-                System.out.printf("%s " + memory + "\n", name);
-                System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", name);
+                System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", getName());
+                System.out.printf("%s " + memory + "\n", getName());
+                System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
             }
 
             if(pageFault()){
                 if(print){
-                    System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, name);
+                    System.out.printf("%s Page " + ANSI_RED + "fault\n"+ANSI_RESET, getName());
                 }
                 totalPageFaultCount++;
 
@@ -145,18 +146,16 @@ public abstract class PageReplacement {
             }
             else{
                 if(print){
-                    System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, name);
+                    System.out.printf("%s Page " + ANSI_GREEN + "OK\n" + ANSI_RESET, getName());
                 }
-
-                //pageFaultInPreviousPage = false;
             }
 
         }
 
         if(print){
             System.out.println();
-            System.out.printf("%s End\n", name);
-            System.out.printf("%s " + memory + "\n", name);
+            System.out.printf("%s End\n", getName());
+            System.out.printf("%s " + memory + "\n", getName());
 
             System.out.println();
             System.out.println("-".repeat(100));
@@ -200,7 +199,7 @@ public abstract class PageReplacement {
     public void printStatistics() {
         final int dashes = 15;
         System.out.println();
-        System.out.printf("%s %s %s\n", "-".repeat(dashes), name, "-".repeat(dashes - name.length() + ANSI_GRAY.length() + ANSI_RESET.length() + dashes/3));
+        System.out.printf("%s %s %s\n", "-".repeat(dashes), getName(), "-".repeat(dashes - getName().length() + ANSI_GRAY.length() + ANSI_RESET.length() + dashes/3));
         System.out.printf("Page fault count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalPageFaultCount);
         System.out.printf("Total trashing count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalThrashingCount);
     }
@@ -208,7 +207,7 @@ public abstract class PageReplacement {
     public void printReplacementFrame(Frame replacementFrame) {
         if (print) {
             String msg = (replacementFrame != null) ? replacementFrame.toString() : ANSI_YELLOW + "Empty frame" + ANSI_RESET;
-            System.out.printf("%s Replacement frame: %s\n", name, msg);
+            System.out.printf("%s Replacement frame: %s\n", getName(), msg);
         }
     }
 

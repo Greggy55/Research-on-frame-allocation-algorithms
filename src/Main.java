@@ -11,25 +11,15 @@ public class Main {
 
         VirtualMemory.INT_TYPE = true;
 
-//        int totalNumberOfFrames = 30;
-//
-//        int minReferenceStringLength = 100;
-//        int maxReferenceStringLength = 101;
-//
-//        int numberOfProcesses = 5;
-//
-//        int minNumberOfPages = 5;
-//        int maxNumberOfPages = 15;
-
-        int totalNumberOfFrames = 6;
+        int totalNumberOfFrames = 30;
 
         int minReferenceStringLength = 100;
         int maxReferenceStringLength = 101;
 
-        int numberOfProcesses = 2;
+        int numberOfProcesses = 5;
 
-        int minNumberOfPages = 2;
-        int maxNumberOfPages = 20;
+        int minNumberOfPages = 5;
+        int maxNumberOfPages = 15;
 
         boolean printLRU = false;
 
