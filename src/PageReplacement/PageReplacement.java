@@ -18,7 +18,7 @@ public abstract class PageReplacement {
     public static final int CHECK = DELTA_T / 4;
     public static final int UPPER_TRASHING_LIMIT = PFFControl.UPPER_PFF_LIMIT;
 
-    public static boolean PRINT_REFERENCE = false;
+    public static boolean PRINT_SHORT = false;
 
     private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
     
@@ -59,7 +59,7 @@ public abstract class PageReplacement {
         //memory.clear();
         referenceString = refStr;
 
-        if(print){
+        if(print && !PRINT_SHORT){
             System.out.printf("%s Run\n", getName());
         }
 
@@ -77,12 +77,11 @@ public abstract class PageReplacement {
         }
 
         if(print){
-            System.out.println();
-            System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", getName());
+            if(!PRINT_SHORT){
+                System.out.println();
+                System.out.printf("%s Iteration: " + ANSI_YELLOW + iter + ANSI_RESET + "\n", getName());
+            }
             System.out.printf("%s " + memory + "\n", getName());
-            System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
-        }
-        else if(PRINT_REFERENCE){
             System.out.printf("%s Reference: " + ANSI_YELLOW + currentPage.toString() + ANSI_RESET + "\n", getName());
         }
 
@@ -103,7 +102,7 @@ public abstract class PageReplacement {
             pageFaultDetector.registerPageFault(false);
         }
 
-        if(print){
+        if(print && !PRINT_SHORT){
             System.out.println();
             System.out.printf("%s End\n", getName());
             System.out.printf("%s " + memory + "\n", getName());

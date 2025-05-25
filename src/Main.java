@@ -10,21 +10,21 @@ public class Main {
         Frame.COLOR = true;
         Page.COLOR = true;
 
-        VirtualMemory.INT_TYPE = true;
+        VirtualMemory.INT_TYPE = false;
 
-        PageReplacement.PRINT_REFERENCE = true;
+        PageReplacement.PRINT_SHORT = true;
 
-        int totalNumberOfFrames = 20;
+        int totalNumberOfFrames = 30;
 
-        int minReferenceStringLength = 100;
-        int maxReferenceStringLength = 101;
+        int minReferenceStringLength = 500;
+        int maxReferenceStringLength = 501;
 
         int numberOfProcesses = 5;
 
-        int minNumberOfPages = 10;
-        int maxNumberOfPages = 35;
+        int minNumberOfPages = 30;
+        int maxNumberOfPages = 100;
 
-        boolean printLRU = false;
+        boolean printLRU = true;
 
         boolean printEqual = false;
         boolean printProportional = false;
