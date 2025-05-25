@@ -24,9 +24,9 @@ public class PageFaultDetector {
     }
 
     public int getPageFaultFrequency(){
-        if(!isReady()){
-            throw new IllegalStateException("Can't get frequency of not ready PFD");
-        }
+//        if(!isReady()){
+//            throw new IllegalStateException("Can't get frequency of not ready PFD");
+//        }
 
         int count = 0;
         for(Boolean fault: pageFaults){

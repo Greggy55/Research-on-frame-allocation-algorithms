@@ -36,7 +36,7 @@ public class PFFControl extends FrameAllocation{
 
     @Override
     public void dynamicAllocate(Process process) {
-        if(!process.canGetPFF() || !process.check()){
+        if(!process.check()){
             return;
         }
         int PFF = process.getPFF();

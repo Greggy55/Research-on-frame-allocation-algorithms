@@ -36,14 +36,18 @@ public class WorkingSetModel extends FrameAllocation{
 
     @Override
     public void dynamicAllocate(Process process) {
-         int numberOfRequiredFrames = 0;
-         for(Process p : processes){
-             numberOfRequiredFrames += getWorkingSetSize(p);
-         }
+        if(!process.check()){
+            return;
+        }
 
-         if(numberOfRequiredFrames <= memory.size()){
-             
-         }
+        int numberOfRequiredFrames = 0;
+        for(Process p : processes){
+            numberOfRequiredFrames += getWorkingSetSize(p);
+        }
+
+        if(numberOfRequiredFrames <= memory.size()){
+
+        }
     }
 
     public int getWorkingSetSize(Process process) {
