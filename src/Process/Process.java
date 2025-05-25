@@ -63,6 +63,10 @@ public class Process {
         lru.updateNumberOfFrames(numberOfFrames);
     }
 
+    public int getNumberOfFrames() {
+        return numberOfFrames;
+    }
+
     public void runLRU(){
         lru.run(virtualMemory.getReferenceString());
     }

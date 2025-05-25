@@ -5,6 +5,7 @@ import Memory.VirtualMemory.Page;
 import PageReplacement.PageReplacement;
 import Process.Process;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class WorkingSetModel extends FrameAllocation{
@@ -39,14 +40,25 @@ public class WorkingSetModel extends FrameAllocation{
         if(!process.check()){
             return;
         }
-
+        System.out.println("Start dynamic allocate");
+        HashMap<Process, Integer> workingSetSize = new HashMap<Process, Integer>();
         int numberOfRequiredFrames = 0;
+
+        System.out.println("Get WSSs");
         for(Process p : processes){
-            numberOfRequiredFrames += getWorkingSetSize(p);
+            int WSS = getWorkingSetSize(p);
+            workingSetSize.put(p, WSS);
+            numberOfRequiredFrames += WSS;
         }
 
+        System.out.println("Number of required frames: " + numberOfRequiredFrames);
         if(numberOfRequiredFrames <= memory.size()){
-
+            System.out.println("UPDATE NOF");
+            for(Process p : processes){
+                System.out.println("Update: " + p.getNumberOfFrames() + " -> " + workingSetSize.get(p));
+                allocateWSS(workingSetSize);
+                System.out.println(memory);
+            }
         }
     }
 
@@ -62,5 +74,50 @@ public class WorkingSetModel extends FrameAllocation{
         }
 
         return hashSet.size();
+    }
+
+    public void allocateWSS(HashMap<Process, Integer> workingSetSize){
+
+        for(Process process : processes){
+            int processNumberOfFrames = process.getNumberOfFrames();
+            int processWSS = workingSetSize.get(process);
+
+            if(processNumberOfFrames > processWSS) {
+                process.setCanGiveFrame(true);
+                process.setNeedsFrame(false);
+
+                for(Process p : processes) {
+                    if(p.needsFrame()) {
+                        if(process.giveFrameTo(p)){
+                            processNumberOfFrames--;
+                            if(processNumberOfFrames == processWSS) {
+                                process.setCanGiveFrame(false);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else if(processNumberOfFrames < processWSS) {
+                process.setCanGiveFrame(false);
+                process.setNeedsFrame(true);
+
+                for(Process p : processes) {
+                    if(p.canGiveFrame()) {
+                        if(p.giveFrameTo(process)){
+                            processNumberOfFrames++;
+                            if(processNumberOfFrames == processWSS) {
+                                process.setNeedsFrame(false);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                process.setCanGiveFrame(false);
+                process.setNeedsFrame(false);
+            }
+        }
     }
 }

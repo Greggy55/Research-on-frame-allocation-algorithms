@@ -52,6 +52,7 @@ public class PFFControl extends FrameAllocation{
             for(Process p : processes) {
                 if(p.canGiveFrame()) {
                     if(p.giveFrameTo(process)){
+                        process.setNeedsFrame(false);
                         break;
                     }
                 }
