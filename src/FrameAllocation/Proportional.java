@@ -38,11 +38,7 @@ public class Proportional extends FrameAllocation{
             frameIndex += numberOfFrames;
         }
 
-        if(globalFrames[globalFrames.length-1].getProcess() == null) {
-            //System.out.println("BYLOBY: " + memory);
-            globalFrames[globalFrames.length - 1].setProcess(processes[processes.length - 1]);
-            //System.out.println("JEST: " + memory);
-        }
+        allocateFreeFrames(globalFrames);
     }
 
     @Override

@@ -31,6 +31,8 @@ public class Equal extends FrameAllocation{
 
             frameIndex += numberOfFrames;
         }
+
+        allocateFreeFrames(globalFrames);
     }
 
     @Override

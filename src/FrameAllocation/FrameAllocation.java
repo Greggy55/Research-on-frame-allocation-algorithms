@@ -1,5 +1,6 @@
 package FrameAllocation;
 
+import Memory.PhysicalMemory.Frame;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
 
@@ -61,5 +62,11 @@ public abstract class FrameAllocation {
 
     public void printMemory(){
         System.out.println(name + " " + memory);
+    }
+
+    public void allocateFreeFrames(Frame[] globalFrames){
+        for(int i = globalFrames.length - 1; globalFrames[i].getProcess() == null; --i){
+            globalFrames[i].setProcess(processes[processes.length - 1]);
+        }
     }
 }

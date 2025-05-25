@@ -11,20 +11,30 @@ public class Main {
 
         VirtualMemory.INT_TYPE = true;
 
-        int totalNumberOfFrames = 30;
+//        int totalNumberOfFrames = 30;
+//
+//        int minReferenceStringLength = 100;
+//        int maxReferenceStringLength = 101;
+//
+//        int numberOfProcesses = 5;
+//
+//        int minNumberOfPages = 5;
+//        int maxNumberOfPages = 15;
+
+        int totalNumberOfFrames = 14;
 
         int minReferenceStringLength = 100;
         int maxReferenceStringLength = 101;
 
-        int numberOfProcesses = 5;
+        int numberOfProcesses = 3;
 
-        int minNumberOfPages = 5;
-        int maxNumberOfPages = 15;
+        int minNumberOfPages = 2;
+        int maxNumberOfPages = 20;
 
         boolean printLRU = false;
 
-        boolean printEqual = false;
-        boolean printProportional = false;
+        boolean printEqual = true;
+        boolean printProportional = true;
         boolean printPFFControl = true;
         boolean printZoneModel = false;
 
