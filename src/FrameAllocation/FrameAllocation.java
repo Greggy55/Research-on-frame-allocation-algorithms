@@ -63,6 +63,8 @@ public abstract class FrameAllocation {
     }
 
     public void allocateFreeFrames(Frame[] globalFrames){
+        Process[] processes = getActiveProcesses();
+
         for(int i = globalFrames.length - 1; globalFrames[i].getProcess() == null; --i){
             globalFrames[i].setProcess(processes[processes.length - 1]);
         }

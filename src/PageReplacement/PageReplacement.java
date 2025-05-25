@@ -49,6 +49,10 @@ public abstract class PageReplacement {
 
     public abstract void replacePage();
 
+    public Page getCurrentPage(){
+        return currentPage;
+    }
+
     public void runSingleIteration(Page[] refStr){
         //memory.clear();
         referenceString = refStr;

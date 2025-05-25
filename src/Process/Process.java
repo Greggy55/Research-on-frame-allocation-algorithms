@@ -75,6 +75,10 @@ public class Process {
         lru.runSingleIteration(virtualMemory.getReferenceString());
     }
 
+    public Page getCurrentPage(){
+        return lru.getCurrentPage();
+    }
+
     public void generateReferenceString(){
         if(localityLevel > 0){
             virtualMemory.generateReferenceStringWithLocality(referenceStringLength, localityLevel, localityFactor);

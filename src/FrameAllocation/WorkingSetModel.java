@@ -5,6 +5,7 @@ import Memory.VirtualMemory.Page;
 import PageReplacement.PageReplacement;
 import Process.Process;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -40,6 +41,8 @@ public class WorkingSetModel extends FrameAllocation{
         if(!process.check()){
             return;
         }
+        Process[] processes = getActiveProcesses();
+
         System.out.println("Start dynamic allocate");
         HashMap<Process, Integer> workingSetSize = new HashMap<Process, Integer>();
         int numberOfRequiredFrames = 0;
@@ -66,21 +69,35 @@ public class WorkingSetModel extends FrameAllocation{
             Process processToSuspend = findProcessWithTheLargestWSS(workingSetSize);
             System.out.println("Process to suspend: " + processToSuspend);
             suspendProcess(processToSuspend);
+            for(Process p : processes){
+                System.out.println(Arrays.toString(p.getFrameArray()));
+            }
         }
     }
 
     public void suspendProcess(Process process){
         process.setSuspended(true);
-        FrameAllocation frameAllocation = new Proportional(false, false, getActiveProcesses(), process.getPhysicalMemory(), globalReferenceString);
-        frameAllocation.run();
+        System.out.println("Suspending process:\nactive processes: " + Arrays.toString(getActiveProcesses()) + "\nSuspended memory: " + process.getPhysicalMemory());
+        while(process.getNumberOfFrames() > 0){
+            for(Process p : getActiveProcesses()){
+                int processNumberOfFrames = p.getNumberOfFrames();
+                int processNumberOfPages = p.getTotalNumberOfPages();
+
+                if(processNumberOfPages < processNumberOfFrames){
+                    process.giveFrameTo(p);
+                }
+            }
+        }
     }
 
     public Process findProcessWithTheLargestWSS(HashMap<Process, Integer> workingSetSize){
+        Process[] processes = getActiveProcesses();
+
         int maxWSS = 0;
         Process returnProcess = null;
 
         for(Process p : processes){
-            int WSS = getWorkingSetSize(p);
+            int WSS = workingSetSize.get(p);
             if(WSS > maxWSS){
                 maxWSS = WSS;
                 returnProcess = p;
@@ -105,6 +122,7 @@ public class WorkingSetModel extends FrameAllocation{
     }
 
     public void allocateWSS(HashMap<Process, Integer> workingSetSize){
+        Process[] processes = getActiveProcesses();
 
         for(Process process : processes){
             int processNumberOfFrames = process.getNumberOfFrames();

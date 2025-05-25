@@ -6,6 +6,8 @@ import Memory.VirtualMemory.Page;
 import Process.Process;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class Simulation {
@@ -38,6 +40,8 @@ public class Simulation {
 
     private final int localityLevel = 12;
     private final double localityFactor = 0.8;
+
+    private final Queue<Page> suspendedPages = new LinkedList<>();
 
     public Simulation(
             int totalNumberOfFrames,
@@ -111,15 +115,36 @@ public class Simulation {
     private void runLRU(boolean printAllocation) {
         for (Page page : globalReferenceString) {
             Process process = page.getProcess();
-            process.runSingleIterationLRU();
-
-            if(frameAllocation.isDynamic()){
-                frameAllocation.dynamicAllocate(process);
+            if(process.isSuspended()){
+                suspendedPages.offer(page);
+                continue;
             }
 
-            if (printAllocation) {
-                frameAllocation.printMemory();
+            runLRUForSingleProcess(printAllocation, process);
+
+            while(!page.equals(process.getCurrentPage())){
+                suspendedPages.poll();
+
+                runLRUForSingleProcess(printAllocation, process);
             }
+        }
+    }
+
+    private void runLRUForSingleProcess(boolean printAllocation, Process process) {
+        if(frameAllocation instanceof WorkingSetModel){
+            System.out.println("{");
+            //System.out.println(process);
+            System.out.println(suspendedPages);
+            System.out.println("sus: " + process.isSuspended() + "\n}");
+        }
+        process.runSingleIterationLRU();
+
+        if(frameAllocation.isDynamic()){
+            frameAllocation.dynamicAllocate(process);
+        }
+
+        if (printAllocation) {
+            frameAllocation.printMemory();
         }
     }
 
