@@ -206,7 +206,7 @@ public abstract class PageReplacement {
 
     public void printReplacementFrame(Frame replacementFrame) {
         if (print) {
-            String msg = (replacementFrame != null) ? replacementFrame.toString() : ANSI_YELLOW + "Empty frame" + ANSI_RESET;
+            String msg = (replacementFrame != null) ? replacementFrame.toString() : ANSI_YELLOW + "Free frame" + ANSI_RESET;
             System.out.printf("%s Replacement frame: %s\n", getName(), msg);
         }
     }
