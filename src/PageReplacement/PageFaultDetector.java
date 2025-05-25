@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class PageFaultDetector {
     private final int deltaT;
-    private Queue<Boolean> pageFaults;
+    private final Queue<Boolean> pageFaults;
 
     public PageFaultDetector(int deltaT) {
         this.deltaT = deltaT;

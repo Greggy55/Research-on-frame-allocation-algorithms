@@ -23,8 +23,8 @@ public class Process {
     private final int localityLevel;
     private final double localityFactor;
 
-    private VirtualMemory virtualMemory;
-    private PhysicalMemory physicalMemory;
+    private final VirtualMemory virtualMemory;
+    private final PhysicalMemory physicalMemory;
 
     private int globalRefStringIndex = 0;
     private boolean completelyInGlobalRefStr = false;
@@ -129,6 +129,10 @@ public class Process {
         return lru.canGetPFF();
     }
 
+    public boolean checkPFF(){
+        return lru.checkPFF();
+    }
+
     public boolean canGiveFrame() {
         return canGiveFrame;
     }
@@ -166,5 +170,9 @@ public class Process {
         process.physicalMemory.addFrame(transmittedFrame);
 
         return true;
+    }
+
+    public int getIter(){
+        return lru.getIter();
     }
 }

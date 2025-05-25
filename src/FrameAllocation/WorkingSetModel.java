@@ -2,9 +2,14 @@ package FrameAllocation;
 
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
+import PageReplacement.PageReplacement;
 import Process.Process;
 
+import java.util.HashSet;
+
 public class WorkingSetModel extends FrameAllocation{
+
+    public static final int DELTA_T = PageReplacement.DELTA_T;
 
     private final FrameAllocation defaultAllocation;
 
@@ -31,6 +36,27 @@ public class WorkingSetModel extends FrameAllocation{
 
     @Override
     public void dynamicAllocate(Process process) {
+         int numberOfRequiredFrames = 0;
+         for(Process p : processes){
+             numberOfRequiredFrames += getWorkingSetSize(p);
+         }
 
+         if(numberOfRequiredFrames <= memory.size()){
+             
+         }
+    }
+
+    public int getWorkingSetSize(Process process) {
+        final int iter = process.getIter() - 1;
+        final int shift = Math.min(iter, DELTA_T);
+
+        Page[] refStr = process.getReferenceString();
+        HashSet<String> hashSet = new HashSet<>();
+
+        for(int i = 0; i <= shift; i++){
+            hashSet.add(refStr[iter - i].idToString());
+        }
+
+        return hashSet.size();
     }
 }
