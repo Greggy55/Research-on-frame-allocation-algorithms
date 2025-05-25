@@ -5,8 +5,13 @@ import Memory.VirtualMemory.Page;
 import Process.Process;
 
 public class WorkingSetModel extends FrameAllocation{
+
+    private final FrameAllocation defaultAllocation;
+
     public WorkingSetModel(boolean print, boolean printDetails, Process[] processes, PhysicalMemory memory, Page[] globalReferenceString) {
         super(print, printDetails, processes, memory, globalReferenceString);
+
+        defaultAllocation = new Equal(print, printDetails, processes, memory, globalReferenceString);
     }
 
     @Override
@@ -21,7 +26,7 @@ public class WorkingSetModel extends FrameAllocation{
 
     @Override
     public void staticAllocate() {
-
+        defaultAllocation.staticAllocate();
     }
 
     @Override

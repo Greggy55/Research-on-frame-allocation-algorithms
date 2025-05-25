@@ -102,10 +102,10 @@ public class Simulation {
         runLRU(printPFFControl);
 
         // ---------- Working Set Model ----------
-//        reset(printLRU && printWorkingSetModel);
-//        frameAllocation = new Equal(printWorkingSetModel, printWorkingSetModel, processes, memory, globalReferenceString);
-//        frameAllocation.run();
-//        runLRU(printWorkingSetModel);
+        reset(printLRU && printWorkingSetModel);
+        frameAllocation = new WorkingSetModel(printWorkingSetModel, printWorkingSetModel, processes, memory, globalReferenceString);
+        frameAllocation.run();
+        runLRU(printWorkingSetModel);
     }
 
     private void runLRU(boolean printAllocation) {
