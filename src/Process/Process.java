@@ -14,7 +14,7 @@ public class Process {
 
     private boolean canGiveFrame = false;
     private boolean needsFrame = false;
-    private boolean isHalted = false;
+    private boolean isSuspended = false;
 
     private int numberOfFrames;
     private final int totalNumberOfPages;
@@ -145,12 +145,12 @@ public class Process {
         this.needsFrame = needsFrame;
     }
 
-    public boolean isHalted() {
-        return isHalted;
+    public boolean isSuspended() {
+        return isSuspended;
     }
 
-    public void setHalted(boolean halted) {
-        isHalted = halted;
+    public void setSuspended(boolean suspended) {
+        isSuspended = suspended;
     }
 
     public boolean giveFrameTo(Process process){
