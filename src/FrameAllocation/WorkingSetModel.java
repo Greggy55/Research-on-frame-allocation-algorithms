@@ -68,25 +68,20 @@ public class WorkingSetModel extends FrameAllocation{
             System.out.println("SUSPEND PROCESS");
             Process processToSuspend = findProcessWithTheLargestWSS(workingSetSize);
             System.out.println("Process to suspend: " + processToSuspend);
-            suspendProcess(processToSuspend);
+            suspendProcess(processToSuspend, workingSetSize);
             for(Process p : processes){
                 System.out.println(Arrays.toString(p.getFrameArray()));
             }
         }
     }
 
-    public void suspendProcess(Process process){
+    public void suspendProcess(Process process, HashMap<Process, Integer> workingSetSize){
         process.setSuspended(true);
         System.out.println("Suspending process:\nactive processes: " + Arrays.toString(getActiveProcesses()) + "\nSuspended memory: " + process.getPhysicalMemory());
         while(process.getNumberOfFrames() > 0){
-            for(Process p : getActiveProcesses()){
-                int processNumberOfFrames = p.getNumberOfFrames();
-                int processNumberOfPages = p.getTotalNumberOfPages();
-
-                if(processNumberOfPages < processNumberOfFrames){
-                    process.giveFrameTo(p);
-                }
-            }
+            System.out.println(process.getNumberOfFrames());
+            Process p = findProcessWithTheLargestWSS(workingSetSize);
+            process.giveFrameTo(p, true);
         }
     }
 

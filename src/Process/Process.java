@@ -167,9 +167,14 @@ public class Process {
     }
 
     public boolean giveFrameTo(Process process){
-        if(this.numberOfFrames <= 1){
+        return giveFrameTo(process, false);
+    }
+
+    public boolean giveFrameTo(Process process, boolean force){
+        if(this.numberOfFrames <= 1 && !force){
             return false;
         }
+
         this.numberOfFrames--;
         process.numberOfFrames++;
 

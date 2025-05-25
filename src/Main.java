@@ -18,7 +18,7 @@ public class Main {
 
         int numberOfProcesses = 3;
 
-        int minNumberOfPages = 2;
+        int minNumberOfPages = 3;
         int maxNumberOfPages = 15;
 
         boolean printLRU = false;
