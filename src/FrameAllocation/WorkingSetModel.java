@@ -40,24 +40,25 @@ public class WorkingSetModel extends FrameAllocation{
         if(!process.check()){
             return;
         }
-        System.out.println("Start dynamic allocate");
+        //System.out.println("Start dynamic allocate");
         HashMap<Process, Integer> workingSetSize = new HashMap<Process, Integer>();
         int numberOfRequiredFrames = 0;
 
-        System.out.println("Get WSSs");
+        //System.out.println("Get WSSs");
         for(Process p : processes){
             int WSS = getWorkingSetSize(p);
+            //System.out.println("WSS: " + WSS);
             workingSetSize.put(p, WSS);
             numberOfRequiredFrames += WSS;
         }
 
-        System.out.println("Number of required frames: " + numberOfRequiredFrames);
+        //System.out.println("Number of required frames: " + numberOfRequiredFrames);
         if(numberOfRequiredFrames <= memory.size()){
-            System.out.println("UPDATE NOF");
+            //System.out.println("UPDATE NOF");
             for(Process p : processes){
-                System.out.println("Update: " + p.getNumberOfFrames() + " -> " + workingSetSize.get(p));
+                //System.out.println("Update: " + p.getNumberOfFrames() + " -> " + workingSetSize.get(p));
                 allocateWSS(workingSetSize);
-                System.out.println(memory);
+                //System.out.println(memory);
             }
         }
     }
