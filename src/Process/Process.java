@@ -129,9 +129,10 @@ public class Process {
         return lru.canGetPFF();
     }
 
-    public boolean checkPFF(){
-        return lru.checkPFF();
+    public boolean check(){
+        return lru.check();
     }
+
 
     public boolean canGiveFrame() {
         return canGiveFrame;

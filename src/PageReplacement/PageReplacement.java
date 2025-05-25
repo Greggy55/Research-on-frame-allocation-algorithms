@@ -15,7 +15,7 @@ public abstract class PageReplacement {
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
 
     public static final int DELTA_T = 16;
-    public static final int CHECK_PFF = DELTA_T / 4;
+    public static final int CHECK = DELTA_T / 4;
     public static final int UPPER_TRASHING_LIMIT = PFFControl.UPPER_PFF_LIMIT;
 
     private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
@@ -57,7 +57,7 @@ public abstract class PageReplacement {
             System.out.printf("%s Run\n", getName());
         }
 
-        if(checkPFF()){
+        if(check()){
             if(pageFaultDetector.getPageFaultFrequency() >= UPPER_TRASHING_LIMIT){
                 totalThrashingCount++;
                 //System.out.println(ANSI_RED+"TRASHING HAPPENED"+ANSI_RESET);
@@ -107,8 +107,8 @@ public abstract class PageReplacement {
         iter++;
     }
 
-    public boolean checkPFF() {
-        return iter % CHECK_PFF == 0 && pageFaultDetector.isReady();
+    public boolean check() {
+        return iter % CHECK == 0 && pageFaultDetector.isReady();
     }
 
     public void run(Page[] refStr){

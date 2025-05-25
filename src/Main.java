@@ -25,8 +25,8 @@ public class Main {
 
         boolean printEqual = false;
         boolean printProportional = false;
-        boolean printPFFControl = true;
-        boolean printZoneModel = false;
+        boolean printPFFControl = false;
+        boolean printZoneModel = true;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
