@@ -16,7 +16,7 @@ public class Main {
         int minReferenceStringLength = 100;
         int maxReferenceStringLength = 101;
 
-        int numberOfProcesses = 2;
+        int numberOfProcesses = 3;
 
         int minNumberOfPages = 2;
         int maxNumberOfPages = 15;

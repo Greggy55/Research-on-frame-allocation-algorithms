@@ -6,6 +6,8 @@ import Memory.VirtualMemory.Page;
 
 import Process.Process;
 
+import java.util.ArrayList;
+
 public abstract class FrameAllocation {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -64,5 +66,16 @@ public abstract class FrameAllocation {
         for(int i = globalFrames.length - 1; globalFrames[i].getProcess() == null; --i){
             globalFrames[i].setProcess(processes[processes.length - 1]);
         }
+    }
+
+    public Process[] getActiveProcesses() {
+        ArrayList<Process> activeProcesses = new ArrayList<Process>();
+        for(Process process : processes){
+            if(!process.isSuspended()){
+                activeProcesses.add(process);
+            }
+        }
+
+        return activeProcesses.toArray(new Process[0]);
     }
 }

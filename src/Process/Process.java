@@ -180,4 +180,8 @@ public class Process {
     public int getIter(){
         return lru.getIter();
     }
+
+    public PhysicalMemory getPhysicalMemory() {
+        return physicalMemory;
+    }
 }
