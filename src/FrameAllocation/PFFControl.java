@@ -3,12 +3,13 @@ package FrameAllocation;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
 
+import PageReplacement.PageReplacement;
 import Process.Process;
 
 public class PFFControl extends FrameAllocation{
 
-    public static final int LOWER_PFF_LIMIT = 3;
-    public static final int UPPER_PFF_LIMIT = 7;
+    public static final int LOWER_PFF_LIMIT = PageReplacement.DELTA_T / 3;
+    public static final int UPPER_PFF_LIMIT = PageReplacement.DELTA_T * 2 / 3;
 
     private final FrameAllocation defaultAllocation;
 

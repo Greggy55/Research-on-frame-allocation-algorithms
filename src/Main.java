@@ -21,20 +21,20 @@ public class Main {
 //        int minNumberOfPages = 5;
 //        int maxNumberOfPages = 15;
 
-        int totalNumberOfFrames = 14;
+        int totalNumberOfFrames = 6;
 
         int minReferenceStringLength = 100;
         int maxReferenceStringLength = 101;
 
-        int numberOfProcesses = 3;
+        int numberOfProcesses = 2;
 
         int minNumberOfPages = 2;
         int maxNumberOfPages = 20;
 
         boolean printLRU = false;
 
-        boolean printEqual = true;
-        boolean printProportional = true;
+        boolean printEqual = false;
+        boolean printProportional = false;
         boolean printPFFControl = true;
         boolean printZoneModel = false;
 
