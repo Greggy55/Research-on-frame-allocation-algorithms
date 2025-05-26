@@ -80,6 +80,9 @@ public class PFFControl extends FrameAllocation{
         while(!p.giveFrameTo(process)){
             p = findProcessWithKthLargestPFF(++k);
         }
+        if(print){
+            System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
+        }
         process.setSuspended(false);
     }
 
@@ -92,6 +95,9 @@ public class PFFControl extends FrameAllocation{
             k %= getActiveProcesses().length;
             Process p = findProcessWithKthLargestPFF(++k);
             process.giveFrameTo(p, true);
+            if(print){
+                System.out.println(getName() + " Transmit frame: " + process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter());
+            }
         }
     }
 

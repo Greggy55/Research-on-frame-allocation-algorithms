@@ -80,6 +80,9 @@ public class WorkingSetModel extends FrameAllocation{
         while(process.getNumberOfFrames() > 0){
             Process p = findProcessWithTheLargestWSS();
             process.giveFrameTo(p, true);
+//            if(print){
+//                System.out.println(getName() + " Transmit frame: " + process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter());
+//            }
         }
     }
 
@@ -91,6 +94,9 @@ public class WorkingSetModel extends FrameAllocation{
             updateWorkingSetSize(getActiveProcesses());
             p = findProcessWithTheLargestWSS();
         }
+//        if(print){
+//            System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
+//        }
         process.setSuspended(false);
         updateWorkingSetSize(getActiveProcesses());
         allocateWSS();
@@ -154,13 +160,16 @@ public class WorkingSetModel extends FrameAllocation{
         }
     }
 
-    private static void findDemandAndTransferFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
+    private void findDemandAndTransferFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
         for(Process p : processes) {
             if(p.needsFrame()) {
                 if(process.giveFrameTo(p)){
                     processNumberOfFrames--;
                     if(processNumberOfFrames == processWSS) {
                         process.setCanGiveFrame(false);
+                        if(print){
+                            System.out.println(getName() + " Transmit frame: " + process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter());
+                        }
                         break;
                     }
                 }
@@ -168,13 +177,16 @@ public class WorkingSetModel extends FrameAllocation{
         }
     }
 
-    private static void findAndTakeAvailableFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
+    private void findAndTakeAvailableFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
         for(Process p : processes) {
             if(p.canGiveFrame()) {
                 if(p.giveFrameTo(process)){
                     processNumberOfFrames++;
                     if(processNumberOfFrames == processWSS) {
                         process.setNeedsFrame(false);
+                        if(print){
+                            System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
+                        }
                         break;
                     }
                 }
