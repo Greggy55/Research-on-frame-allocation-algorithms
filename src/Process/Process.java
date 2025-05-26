@@ -40,6 +40,14 @@ public class Process {
     private int numberOfFramesTaken = 0;
     private int numberOfFramesReceived = 0;
 
+    private int totalSumOfPFF = 0;
+    private int highestPFF = 0;
+    private int numberOfMeasurementsPFF = 0;
+
+    private int totalSumOfWSS = 0;
+    private int highestWSS = 0;
+    private int numberOfMeasurementsWSS = 0;
+
     public Process(
             int numberOfFrames,
             int totalNumberOfPages,
@@ -147,7 +155,11 @@ public class Process {
     }
 
     public int getPFF(){
-        return lru.getPFF();
+        int PFF = lru.getPFF();
+        totalSumOfPFF += PFF;
+        numberOfMeasurementsPFF++;
+        highestPFF = Math.max(PFF, highestPFF);
+        return PFF;
     }
 
     public boolean canGetPFF(){
@@ -169,7 +181,11 @@ public class Process {
             hashSet.add(refStr[iter - i].idToString());
         }
 
-        return hashSet.size();
+        int WSS = hashSet.size();
+        totalSumOfWSS += WSS;
+        numberOfMeasurementsWSS++;
+        highestWSS = Math.max(WSS, highestWSS);
+        return WSS;
     }
 
     public boolean canGiveFrame() {
@@ -242,19 +258,34 @@ public class Process {
     }
 
     public String getStatistics(boolean squeeze){
-        return lru.getStatistics(squeeze)
-                + "["
-                + ANSI_YELLOW + numberOfSuspensions + ANSI_RESET + ", "
-                + ANSI_YELLOW +numberOfFramesTaken + ANSI_RESET + ", "
-                + ANSI_YELLOW +numberOfFramesReceived + ANSI_RESET
-                + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append(lru.getStatistics(squeeze));
+        if(numberOfSuspensions + numberOfFramesTaken + numberOfFramesReceived > 0){
+            sb.append("[" + ANSI_YELLOW).append(numberOfSuspensions).append(ANSI_RESET).append(", ").append(ANSI_YELLOW).append(numberOfFramesTaken).append(ANSI_RESET).append(", ").append(ANSI_YELLOW).append(numberOfFramesReceived).append(ANSI_RESET).append("]");
+        }
+        if(highestPFF > 0){
+            sb.append("[" + ANSI_YELLOW).append(getAveragePFF()).append(ANSI_RESET).append(", ").append(ANSI_YELLOW).append(highestPFF).append(ANSI_RESET).append("]");
+        }
+        if(highestWSS > 0){
+            sb.append("[" + ANSI_YELLOW).append(getAverageWSS()).append(ANSI_RESET).append(", ").append(ANSI_YELLOW).append(highestWSS).append(ANSI_RESET).append("]");
+        }
+        return sb.toString();
     }
 
     public void resetStatistics() {
         lru.resetStatistics();
+
         numberOfFramesReceived = 0;
         numberOfFramesTaken = 0;
         numberOfSuspensions = 0;
+
+        totalSumOfPFF = 0;
+        highestPFF = 0;
+        numberOfMeasurementsPFF = 0;
+
+        totalSumOfWSS = 0;
+        highestWSS = 0;
+        numberOfMeasurementsWSS = 0;
     }
 
     public int getTotalPageFaultCount(){
@@ -275,5 +306,39 @@ public class Process {
 
     public int getNumberOfFramesReceived() {
         return numberOfFramesReceived;
+    }
+
+    public int getHighestWSS() {
+        return highestWSS;
+    }
+
+    public int getHighestPFF() {
+        return highestPFF;
+    }
+
+    public double getAveragePFF() {
+        double avg = (double) totalSumOfPFF / numberOfMeasurementsPFF;
+        return Math.round(avg * 100.0) / 100.0;
+    }
+
+    public double getAverageWSS() {
+        double avg = (double) totalSumOfWSS / numberOfMeasurementsWSS;
+        return Math.round(avg * 100.0) / 100.0;
+    }
+
+    public int getTotalSumOfWSS() {
+        return totalSumOfWSS;
+    }
+
+    public int getTotalSumOfPFF() {
+        return totalSumOfPFF;
+    }
+
+    public int getNumberOfMeasurementsPFF() {
+        return numberOfMeasurementsPFF;
+    }
+
+    public int getNumberOfMeasurementsWSS() {
+        return numberOfMeasurementsWSS;
     }
 }

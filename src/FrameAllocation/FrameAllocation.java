@@ -110,14 +110,34 @@ public abstract class FrameAllocation {
         int totalPageFaultCount = 0;
         int totalThrashingCount = 0;
         int totalNumberOfSuspensions = 0;
+
         int totalNumberOfFramesTaken = 0;
         int totalNumberOfFramesReceived = 0;
+
+        int sumPFF = 0;
+        int measurePFF = 0;
+        int highestPFF = 0;
+
+        int sumWSS = 0;
+        int measureWSS = 0;
+        int highestWSS = 0;
+
         for(Process process : processes){
             totalPageFaultCount += process.getTotalPageFaultCount();
             totalThrashingCount += process.getTotalThrashingCount();
             totalNumberOfSuspensions += process.getNumberOfSuspensions();
+
             totalNumberOfFramesTaken += process.getNumberOfFramesTaken();
             totalNumberOfFramesReceived += process.getNumberOfFramesReceived();
+
+            sumPFF += process.getTotalSumOfPFF();
+            measurePFF += process.getNumberOfMeasurementsPFF();
+            highestPFF = Math.max(highestPFF, process.getHighestPFF());
+
+            sumWSS += process.getTotalSumOfWSS();
+            measureWSS += process.getNumberOfMeasurementsWSS();
+            highestWSS = Math.max(highestWSS, process.getHighestWSS());
+
             sb.append(process.colored());
             sb.append(process.getStatistics(true));
             sb.append("\n");
@@ -126,12 +146,16 @@ public abstract class FrameAllocation {
         sb.append("Total thrashing count: ").append(ANSI_YELLOW).append(totalThrashingCount).append(ANSI_RESET).append("\n");
         if(isDynamic()){
             sb.append("Total number of suspensions: ").append(ANSI_YELLOW).append(totalNumberOfSuspensions).append(ANSI_RESET).append("\n");
-//            sb.append("Total number of frames taken: ").append(ANSI_YELLOW).append(totalNumberOfFramesTaken).append(ANSI_RESET).append("\n");
-//            sb.append("Total number of frames received: ").append(ANSI_YELLOW).append(totalNumberOfFramesReceived).append(ANSI_RESET).append("\n");
-            if(totalNumberOfFramesTaken != totalNumberOfFramesReceived){
-                throw new RuntimeException("Total number of frames taken: " + totalNumberOfFramesTaken + "\nTotal number of frames received: " + totalNumberOfFramesReceived + "\nShould be equal");
-            }
-            sb.append("Total number of frames transmitted: ").append(ANSI_YELLOW).append(totalNumberOfFramesTaken).append(ANSI_RESET).append("\n");
+            sb.append("Total number of frames taken: ").append(ANSI_YELLOW).append(totalNumberOfFramesTaken).append(ANSI_RESET).append("\n");
+            sb.append("Total number of frames received: ").append(ANSI_YELLOW).append(totalNumberOfFramesReceived).append(ANSI_RESET).append("\n");
+        }
+        if(this instanceof PFFControl){
+            sb.append("Average PFF: ").append(ANSI_YELLOW).append(Math.round((double) sumPFF / measurePFF * 100.0) / 100.0).append(ANSI_RESET).append("\n");
+            sb.append("Highest PFF: ").append(ANSI_YELLOW).append(highestPFF).append(ANSI_RESET).append("\n");
+        }
+        if(this instanceof WorkingSetModel){
+            sb.append("Average WSS: ").append(ANSI_YELLOW).append(Math.round((double) sumWSS / measureWSS * 100.0) / 100.0).append(ANSI_RESET).append("\n");
+            sb.append("Highest WSS: ").append(ANSI_YELLOW).append(highestWSS).append(ANSI_RESET).append("\n");
         }
         return sb.toString();
     }
