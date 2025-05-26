@@ -6,6 +6,8 @@ import PageReplacement.*;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.VirtualMemory;
 
+import java.util.HashSet;
+
 public class Process {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[38;5;228m";
@@ -156,6 +158,19 @@ public class Process {
         return lru.check();
     }
 
+    public int getWorkingSetSize(int deltaT) {
+        final int iter = this.getIter() - 1;
+        final int shift = Math.min(iter, deltaT);
+
+        Page[] refStr = this.getReferenceString();
+        HashSet<String> hashSet = new HashSet<>();
+
+        for(int i = 0; i <= shift; i++){
+            hashSet.add(refStr[iter - i].idToString());
+        }
+
+        return hashSet.size();
+    }
 
     public boolean canGiveFrame() {
         return canGiveFrame;

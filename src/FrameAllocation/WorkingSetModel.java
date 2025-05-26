@@ -7,7 +7,6 @@ import Process.Process;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class WorkingSetModel extends FrameAllocation{
 
@@ -72,7 +71,7 @@ public class WorkingSetModel extends FrameAllocation{
         numberOfRequiredFrames = 0;
 
         for(Process p : processes){
-            int WSS = getWorkingSetSize(p);
+            int WSS = p.getWorkingSetSize(DELTA_T);
             workingSetSize.put(p, WSS);
             numberOfRequiredFrames += WSS;
         }
@@ -146,21 +145,6 @@ public class WorkingSetModel extends FrameAllocation{
         ));
 
         return processes[k - 1];
-    }
-
-
-    public int getWorkingSetSize(Process process) {
-        final int iter = process.getIter() - 1;
-        final int shift = Math.min(iter, DELTA_T);
-
-        Page[] refStr = process.getReferenceString();
-        HashSet<String> hashSet = new HashSet<>();
-
-        for(int i = 0; i <= shift; i++){
-            hashSet.add(refStr[iter - i].idToString());
-        }
-
-        return hashSet.size();
     }
 
     public void allocateWSS(){
