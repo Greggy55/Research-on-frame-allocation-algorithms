@@ -24,12 +24,12 @@ public class Main {
         int minNumberOfPages = 30;
         int maxNumberOfPages = 100;
 
-        boolean printLRU = true;
+        boolean printLRU = false;
 
         boolean printEqual = false;
         boolean printProportional = false;
-        boolean printPFFControl = false;
-        boolean printZoneModel = true;
+        boolean printPFFControl = true;
+        boolean printZoneModel = false;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
