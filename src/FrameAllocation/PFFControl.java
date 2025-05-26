@@ -6,6 +6,10 @@ import Memory.VirtualMemory.Page;
 import PageReplacement.PageReplacement;
 import Process.Process;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class PFFControl extends FrameAllocation{
 
     public static final int DELTA_T = PageReplacement.DELTA_T;
@@ -50,7 +54,6 @@ public class PFFControl extends FrameAllocation{
 
             Process[] suspendedProcesses = getSuspendedProcesses();
             if(suspendedProcesses.length > 0){
-                System.out.println("UNSUSPEND: " + process);
                 unsuspendProcess(suspendedProcesses[0]);
             }
         }
@@ -59,8 +62,7 @@ public class PFFControl extends FrameAllocation{
             process.setNeedsFrame(true);
 
             boolean found = findAndTakeAvailableFrame(process);
-            if(!found){
-                System.out.println("SUSPEND PROCESS: " + process);
+            if(!found && processes.length > 1){
                 suspendProcess(process);
             }
         }
@@ -72,18 +74,23 @@ public class PFFControl extends FrameAllocation{
 
     @Override
     public void unsuspendProcess(Process process) {
+        super.unsuspendProcess(process);
         Process p = findProcessWithTheLargestPFF();
+        int k = 0;
         while(!p.giveFrameTo(process)){
-            p = findProcessWithTheLargestPFF();
+            p = findProcessWithKthLargestPFF(++k);
         }
         process.setSuspended(false);
     }
 
     @Override
     public void suspendProcess(Process process) {
+        super.suspendProcess(process);
         process.setSuspended(true);
+        int k = 0;
         while(process.getNumberOfFrames() > 0){
-            Process p = findProcessWithTheLargestPFF();
+            k %= getActiveProcesses().length;
+            Process p = findProcessWithKthLargestPFF(++k);
             process.giveFrameTo(p, true);
         }
     }
@@ -104,6 +111,22 @@ public class PFFControl extends FrameAllocation{
 
         return returnProcess;
     }
+
+    public Process findProcessWithKthLargestPFF(int k) {
+        Process[] processes = getActiveProcesses();
+
+        if(processes == null){
+            throw new IllegalStateException("No active processes found");
+        }
+        if (processes.length < k || k <= 0) {
+            throw new IllegalArgumentException("Invalid k: " + k + "; number of active processes: " + processes.length);
+        }
+
+        Arrays.sort(processes, (p1, p2) -> Integer.compare(p2.getPFF(), p1.getPFF()));
+
+        return processes[k - 1];
+    }
+
 
     private boolean findAndTakeAvailableFrame(Process process) {
         Process[] processes = getActiveProcesses();

@@ -36,8 +36,17 @@ public abstract class FrameAllocation {
     public abstract void staticAllocate();
     public abstract void dynamicAllocate(Process process);
 
-    public abstract void suspendProcess(Process process);
-    public abstract void unsuspendProcess(Process process);
+    public void suspendProcess(Process process){
+        if(print){
+            System.out.printf("%s " + "Suspend process: " + process.pagesToString() + "\n", getName());
+        }
+    }
+
+    public void unsuspendProcess(Process process){
+        if(print){
+            System.out.printf("%s " + "Unsuspend process: " + process.pagesToString() + "\n", getName());
+        }
+    }
 
     public void run(){
         memory.clear();

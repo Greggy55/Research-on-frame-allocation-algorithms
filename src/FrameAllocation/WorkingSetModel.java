@@ -75,6 +75,7 @@ public class WorkingSetModel extends FrameAllocation{
 
     @Override
     public void suspendProcess(Process process){
+        super.suspendProcess(process);
         process.setSuspended(true);
         while(process.getNumberOfFrames() > 0){
             Process p = findProcessWithTheLargestWSS();
@@ -84,6 +85,7 @@ public class WorkingSetModel extends FrameAllocation{
 
     @Override
     public void unsuspendProcess(Process process){
+        super.unsuspendProcess(process);
         Process p = findProcessWithTheLargestWSS();
         while(!p.giveFrameTo(process)){
             updateWorkingSetSize(getActiveProcesses());
