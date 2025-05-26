@@ -137,37 +137,45 @@ public class WorkingSetModel extends FrameAllocation{
                 process.setCanGiveFrame(true);
                 process.setNeedsFrame(false);
 
-                for(Process p : processes) {
-                    if(p.needsFrame()) {
-                        if(process.giveFrameTo(p)){
-                            processNumberOfFrames--;
-                            if(processNumberOfFrames == processWSS) {
-                                process.setCanGiveFrame(false);
-                                break;
-                            }
-                        }
-                    }
-                }
+                findDemandAndTransferFrame(process, processes, processNumberOfFrames, processWSS);
             }
             else if(processNumberOfFrames < processWSS) {
                 process.setCanGiveFrame(false);
                 process.setNeedsFrame(true);
 
-                for(Process p : processes) {
-                    if(p.canGiveFrame()) {
-                        if(p.giveFrameTo(process)){
-                            processNumberOfFrames++;
-                            if(processNumberOfFrames == processWSS) {
-                                process.setNeedsFrame(false);
-                                break;
-                            }
-                        }
-                    }
-                }
+                findAndTakeAvailableFrame(process, processes, processNumberOfFrames, processWSS);
             }
             else{
                 process.setCanGiveFrame(false);
                 process.setNeedsFrame(false);
+            }
+        }
+    }
+
+    private static void findDemandAndTransferFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
+        for(Process p : processes) {
+            if(p.needsFrame()) {
+                if(process.giveFrameTo(p)){
+                    processNumberOfFrames--;
+                    if(processNumberOfFrames == processWSS) {
+                        process.setCanGiveFrame(false);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private static void findAndTakeAvailableFrame(Process process, Process[] processes, int processNumberOfFrames, int processWSS) {
+        for(Process p : processes) {
+            if(p.canGiveFrame()) {
+                if(p.giveFrameTo(process)){
+                    processNumberOfFrames++;
+                    if(processNumberOfFrames == processWSS) {
+                        process.setNeedsFrame(false);
+                        break;
+                    }
+                }
             }
         }
     }
