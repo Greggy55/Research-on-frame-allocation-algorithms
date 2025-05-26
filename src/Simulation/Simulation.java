@@ -105,7 +105,7 @@ public class Simulation {
         frameAllocation.run();
         runLRU(printPFFControl);
 
-        // ---------- Working Set Model ----------
+        // ---------- Working-Set Model ----------
         reset(printLRU && printWorkingSetModel);
         frameAllocation = new WorkingSetModel(printWorkingSetModel, printWorkingSetModel, processes, memory, globalReferenceString);
         frameAllocation.run();
@@ -122,21 +122,14 @@ public class Simulation {
 
             runLRUForSingleProcess(printAllocation, process);
 
-            while(!process.isSuspended() && !page.equals(process.getCurrentPage())){
+            while(!process.isSuspended() && !page.equals(process.getCurrentPage())){ // do suspended pages
                 suspendedPages.poll();
-
                 runLRUForSingleProcess(printAllocation, process);
             }
         }
     }
 
     private void runLRUForSingleProcess(boolean printAllocation, Process process) {
-        if(frameAllocation instanceof WorkingSetModel){
-            //System.out.println("{");
-            //System.out.println(process);
-            //System.out.println(suspendedPages);
-            //System.out.println("sus: " + process.isSuspended() + "\n}");
-        }
         process.runSingleIterationLRU();
 
         if(frameAllocation.isDynamic()){

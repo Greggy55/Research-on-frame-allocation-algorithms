@@ -49,18 +49,22 @@ public class PFFControl extends FrameAllocation{
             process.setCanGiveFrame(false);
             process.setNeedsFrame(true);
 
-            for(Process p : processes) {
-                if(p.canGiveFrame()) {
-                    if(p.giveFrameTo(process)){
-                        process.setNeedsFrame(false);
-                        break;
-                    }
-                }
-            }
+            findAndTakeAvailableFrame(process);
         }
         else{
             process.setCanGiveFrame(false);
             process.setNeedsFrame(false);
+        }
+    }
+
+    private void findAndTakeAvailableFrame(Process process) {
+        for(Process p : processes) {
+            if(p.canGiveFrame()) {
+                if(p.giveFrameTo(process)){
+                    process.setNeedsFrame(false);
+                    break;
+                }
+            }
         }
     }
 }
