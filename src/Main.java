@@ -14,10 +14,10 @@ public class Main {
 
         PageReplacement.PRINT_SHORT = true;
 
-        int totalNumberOfFrames = 30; // 30
+        int totalNumberOfFrames = 20; // 20
 
         int minReferenceStringLength = 500; // 500
-        int maxReferenceStringLength = 501; // 501-1000
+        int maxReferenceStringLength = 1000; // 501-1000
 
         int numberOfProcesses = 6; // 6
 

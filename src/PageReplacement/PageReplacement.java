@@ -14,7 +14,7 @@ public abstract class PageReplacement {
     public static final String ANSI_GREEN = "\u001B[38;5;120m";
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
 
-    public static final int DELTA_T = 16;
+    public static final int DELTA_T = 32;
     public static final int CHECK = DELTA_T / 4;
     public static final int UPPER_TRASHING_LIMIT = PFFControl.UPPER_PFF_LIMIT;
 
