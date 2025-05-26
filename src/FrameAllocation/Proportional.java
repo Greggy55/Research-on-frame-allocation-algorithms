@@ -54,6 +54,16 @@ public class Proportional extends FrameAllocation{
         throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
     }
 
+    @Override
+    public void unsuspendProcess(Process process) {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
+    }
+
+    @Override
+    public void suspendProcess(Process process) {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
+    }
+
     private static int getRatio(Process process, Frame[] globalFrames, int totalNumberOfPages) {
         return (int) Math.round((double) globalFrames.length * process.getTotalNumberOfPages() / totalNumberOfPages);
     }

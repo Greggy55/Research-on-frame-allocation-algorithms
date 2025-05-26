@@ -47,4 +47,14 @@ public class Equal extends FrameAllocation{
     public void dynamicAllocate(Process p) {
         throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
     }
+
+    @Override
+    public void unsuspendProcess(Process process) {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
+    }
+
+    @Override
+    public void suspendProcess(Process process) {
+        throw new UnsupportedOperationException("Not supported for static frame allocation algorithms.");
+    }
 }

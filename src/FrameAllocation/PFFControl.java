@@ -57,6 +57,16 @@ public class PFFControl extends FrameAllocation{
         }
     }
 
+    @Override
+    public void unsuspendProcess(Process process) {
+
+    }
+
+    @Override
+    public void suspendProcess(Process process) {
+
+    }
+
     private void findAndTakeAvailableFrame(Process process) {
         for(Process p : processes) {
             if(p.canGiveFrame()) {

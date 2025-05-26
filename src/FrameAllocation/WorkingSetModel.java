@@ -5,7 +5,6 @@ import Memory.VirtualMemory.Page;
 import PageReplacement.PageReplacement;
 import Process.Process;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -55,12 +54,12 @@ public class WorkingSetModel extends FrameAllocation{
 
             Process[] suspendedProcesses = getSuspendedProcesses();
             if(suspendedProcesses.length > 0){
-                unsuspendProcess(suspendedProcesses[0], workingSetSize);
+                unsuspendProcess(suspendedProcesses[0]);
             }
         }
         else{
-            Process processToSuspend = findProcessWithTheLargestWSS(workingSetSize);
-            suspendProcess(processToSuspend, workingSetSize);
+            Process processToSuspend = findProcessWithTheLargestWSS();
+            suspendProcess(processToSuspend);
         }
     }
 
@@ -74,26 +73,29 @@ public class WorkingSetModel extends FrameAllocation{
         }
     }
 
-    public void suspendProcess(Process process, HashMap<Process, Integer> workingSetSize){
+    @Override
+    public void suspendProcess(Process process){
         process.setSuspended(true);
         while(process.getNumberOfFrames() > 0){
-            Process p = findProcessWithTheLargestWSS(workingSetSize);
+            Process p = findProcessWithTheLargestWSS();
             process.giveFrameTo(p, true);
         }
     }
 
-    public void unsuspendProcess(Process process, HashMap<Process, Integer> workingSetSize){
-        Process p = findProcessWithTheLargestWSS(workingSetSize);
+    @Override
+    public void unsuspendProcess(Process process){
+        Process p = findProcessWithTheLargestWSS();
         while(!p.giveFrameTo(process)){
             updateWorkingSetSize(getActiveProcesses());
-            p = findProcessWithTheLargestWSS(workingSetSize);
+            p = findProcessWithTheLargestWSS();
         }
         process.setSuspended(false);
         updateWorkingSetSize(getActiveProcesses());
         allocateWSS(workingSetSize);
     }
 
-    public Process findProcessWithTheLargestWSS(HashMap<Process, Integer> workingSetSize){
+    public Process findProcessWithTheLargestWSS(){
+        // assert workingSetSize is updated
         Process[] processes = getActiveProcesses();
 
         int maxWSS = 0;

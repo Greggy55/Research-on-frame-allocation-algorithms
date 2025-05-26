@@ -36,6 +36,9 @@ public abstract class FrameAllocation {
     public abstract void staticAllocate();
     public abstract void dynamicAllocate(Process process);
 
+    public abstract void suspendProcess(Process process);
+    public abstract void unsuspendProcess(Process process);
+
     public void run(){
         memory.clear();
 
