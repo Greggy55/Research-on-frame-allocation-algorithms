@@ -22,8 +22,8 @@ public abstract class PageReplacement {
 
     private final PageFaultDetector pageFaultDetector = new PageFaultDetector(DELTA_T);
     
-    private static int totalPageFaultCount = 0;
-    private static int totalThrashingCount = 0;
+    private int totalPageFaultCount = 0;
+    private int totalThrashingCount = 0;
 
     protected boolean print;
     protected boolean printDetails;
@@ -202,6 +202,13 @@ public abstract class PageReplacement {
                 "Total trashing count: " + ANSI_YELLOW + "%d\n".formatted(totalThrashingCount) + ANSI_RESET;
     }
 
+    public String getStatistics(boolean squeeze){
+        if(!squeeze){
+            return getStatistics();
+        }
+        return "["+ANSI_YELLOW + totalPageFaultCount + ANSI_RESET + ", " + ANSI_YELLOW + totalThrashingCount + ANSI_RESET + "]\n";
+    }
+
     public void printReplacementFrame(Frame replacementFrame) {
         if (print) {
             String msg = (replacementFrame != null) ? replacementFrame.toString() : ANSI_YELLOW + "Free frame" + ANSI_RESET;
@@ -221,8 +228,16 @@ public abstract class PageReplacement {
         return iter;
     }
 
-    public static void resetStatistics(){
+    public void resetStatistics(){
         totalPageFaultCount = 0;
         totalThrashingCount = 0;
+    }
+
+    public int getTotalThrashingCount() {
+        return totalThrashingCount;
+    }
+
+    public int getTotalPageFaultCount() {
+        return totalPageFaultCount;
     }
 }

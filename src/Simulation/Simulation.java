@@ -139,16 +139,13 @@ public class Simulation {
 
     private void reset(boolean printLRU) {
         memory.clear();
-        for (Page page : globalReferenceString) {
-            Process process = page.getProcess();
-            process.resetLRU(printLRU);
-        }
         for(Process process: processes){
+            process.resetLRU(printLRU);
             process.setSuspended(false);
             process.setCanGiveFrame(false);
             process.setNeedsFrame(false);
+            process.resetStatistics();
         }
-        PageReplacement.resetStatistics();
     }
 
     public void generateProcesses(){
@@ -215,8 +212,11 @@ public class Simulation {
     }
 
     public void printStatistics() {
+        System.out.println();
+        System.out.println("--------------- "+ANSI_YELLOW+"Statistics"+ANSI_RESET+" ---------------");
+        System.out.println();
         for (String statistic : statistics) {
-            System.out.print(statistic);
+            System.out.println(statistic);
         }
     }
 }

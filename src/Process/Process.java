@@ -217,7 +217,19 @@ public class Process {
         return physicalMemory;
     }
 
-    public String getStatistics(){
-        return lru.getStatistics();
+    public String getStatistics(boolean squeeze){
+        return lru.getStatistics(squeeze);
+    }
+
+    public void resetStatistics() {
+        lru.resetStatistics();
+    }
+
+    public int getTotalPageFaultCount(){
+        return lru.getTotalPageFaultCount();
+    }
+
+    public int getTotalThrashingCount(){
+        return lru.getTotalThrashingCount();
     }
 }

@@ -105,7 +105,18 @@ public abstract class FrameAllocation {
     }
 
     public String getStatistics() {
-        return getName() + "\n" +
-                processes[0].getStatistics() + "\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("--------------- ").append(getName()).append(" ---------------").append("\n");
+        int totalPageFaultCount = 0;
+        int totalThrashingCount = 0;
+        for(Process process : processes){
+            totalPageFaultCount += process.getTotalPageFaultCount();
+            totalThrashingCount += process.getTotalThrashingCount();
+            sb.append(process.colored());
+            sb.append(process.getStatistics(true));
+        }
+        sb.append("Total page fault count: ").append(ANSI_YELLOW).append(totalPageFaultCount).append(ANSI_RESET).append("\n");
+        sb.append("Total thrashing count: ").append(ANSI_YELLOW).append(totalThrashingCount).append(ANSI_RESET).append("\n");
+        return sb.toString();
     }
 }
