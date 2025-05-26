@@ -12,7 +12,7 @@ public class PFFControl extends FrameAllocation{
 
     public static final int LOWER_PFF_LIMIT = DELTA_T / 3;
     public static final int UPPER_PFF_LIMIT = DELTA_T * 2 / 3;
-    public static final int ABSOLUTE_PFF_LIMIT = DELTA_T * 9 / 10;
+    public static final int ABSOLUTE_PFF_LIMIT = DELTA_T * 5 / 6;
 
     private final FrameAllocation defaultAllocation;
 
@@ -47,6 +47,9 @@ public class PFFControl extends FrameAllocation{
         if(PFF < LOWER_PFF_LIMIT) {
             process.setCanGiveFrame(true);
             process.setNeedsFrame(false);
+        }
+        else if(PFF > ABSOLUTE_PFF_LIMIT) {
+
         }
         else if(PFF > UPPER_PFF_LIMIT) {
             process.setCanGiveFrame(false);
