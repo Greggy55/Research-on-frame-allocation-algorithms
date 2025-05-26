@@ -10,7 +10,7 @@ public class Main {
         Frame.COLOR = true;
         Page.COLOR = true;
 
-        VirtualMemory.INT_TYPE = false;
+        VirtualMemory.INT_TYPE = true;
 
         PageReplacement.PRINT_SHORT = true;
 
@@ -29,7 +29,7 @@ public class Main {
         boolean printEqual = false;
         boolean printProportional = false;
         boolean printPFFControl = true;
-        boolean printZoneModel = true;
+        boolean printZoneModel = false;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,

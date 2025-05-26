@@ -49,7 +49,7 @@ public class WorkingSetModel extends FrameAllocation{
 
         if(numberOfRequiredFrames <= memory.size()){
             for(Process p : processes){
-                allocateWSS(workingSetSize);
+                allocateWSS();
             }
 
             Process[] suspendedProcesses = getSuspendedProcesses();
@@ -91,7 +91,7 @@ public class WorkingSetModel extends FrameAllocation{
         }
         process.setSuspended(false);
         updateWorkingSetSize(getActiveProcesses());
-        allocateWSS(workingSetSize);
+        allocateWSS();
     }
 
     public Process findProcessWithTheLargestWSS(){
@@ -126,7 +126,7 @@ public class WorkingSetModel extends FrameAllocation{
         return hashSet.size();
     }
 
-    public void allocateWSS(HashMap<Process, Integer> workingSetSize){
+    public void allocateWSS(){
         Process[] processes = getActiveProcesses();
 
         for(Process process : processes){
