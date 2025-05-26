@@ -109,14 +109,30 @@ public abstract class FrameAllocation {
         sb.append("--------------- ").append(getName()).append(" ---------------").append("\n");
         int totalPageFaultCount = 0;
         int totalThrashingCount = 0;
+        int totalNumberOfSuspensions = 0;
+        int totalNumberOfFramesTaken = 0;
+        int totalNumberOfFramesReceived = 0;
         for(Process process : processes){
             totalPageFaultCount += process.getTotalPageFaultCount();
             totalThrashingCount += process.getTotalThrashingCount();
+            totalNumberOfSuspensions += process.getNumberOfSuspensions();
+            totalNumberOfFramesTaken += process.getNumberOfFramesTaken();
+            totalNumberOfFramesReceived += process.getNumberOfFramesReceived();
             sb.append(process.colored());
             sb.append(process.getStatistics(true));
+            sb.append("\n");
         }
         sb.append("Total page fault count: ").append(ANSI_YELLOW).append(totalPageFaultCount).append(ANSI_RESET).append("\n");
         sb.append("Total thrashing count: ").append(ANSI_YELLOW).append(totalThrashingCount).append(ANSI_RESET).append("\n");
+        if(isDynamic()){
+            sb.append("Total number of suspensions: ").append(ANSI_YELLOW).append(totalNumberOfSuspensions).append(ANSI_RESET).append("\n");
+//            sb.append("Total number of frames taken: ").append(ANSI_YELLOW).append(totalNumberOfFramesTaken).append(ANSI_RESET).append("\n");
+//            sb.append("Total number of frames received: ").append(ANSI_YELLOW).append(totalNumberOfFramesReceived).append(ANSI_RESET).append("\n");
+            if(totalNumberOfFramesTaken != totalNumberOfFramesReceived){
+                throw new RuntimeException("Total number of frames taken: " + totalNumberOfFramesTaken + "\nTotal number of frames received: " + totalNumberOfFramesReceived + "\nShould be equal");
+            }
+            sb.append("Total number of frames transmitted: ").append(ANSI_YELLOW).append(totalNumberOfFramesTaken).append(ANSI_RESET).append("\n");
+        }
         return sb.toString();
     }
 }

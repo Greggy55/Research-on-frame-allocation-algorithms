@@ -34,6 +34,10 @@ public class Process {
 
     private LRU lru;
 
+    private int numberOfSuspensions = 0;
+    private int numberOfFramesTaken = 0;
+    private int numberOfFramesReceived = 0;
+
     public Process(
             int numberOfFrames,
             int totalNumberOfPages,
@@ -175,6 +179,9 @@ public class Process {
 
     public void setSuspended(boolean suspended) {
         isSuspended = suspended;
+        if(suspended){
+            numberOfSuspensions++;
+        }
     }
 
     public boolean giveFrameTo(Process process){
@@ -187,7 +194,9 @@ public class Process {
         }
 
         this.numberOfFrames--;
+        this.numberOfFramesTaken++;
         process.numberOfFrames++;
+        process.numberOfFramesReceived++;
 
         Frame transmittedFrame = this.physicalMemory.removeLastFrame();
         transmittedFrameBefore = transmittedFrame.toString();
@@ -218,11 +227,19 @@ public class Process {
     }
 
     public String getStatistics(boolean squeeze){
-        return lru.getStatistics(squeeze);
+        return lru.getStatistics(squeeze)
+                + "["
+                + ANSI_YELLOW + numberOfSuspensions + ANSI_RESET + ", "
+                + ANSI_YELLOW +numberOfFramesTaken + ANSI_RESET + ", "
+                + ANSI_YELLOW +numberOfFramesReceived + ANSI_RESET
+                + "]";
     }
 
     public void resetStatistics() {
         lru.resetStatistics();
+        numberOfFramesReceived = 0;
+        numberOfFramesTaken = 0;
+        numberOfSuspensions = 0;
     }
 
     public int getTotalPageFaultCount(){
@@ -231,5 +248,17 @@ public class Process {
 
     public int getTotalThrashingCount(){
         return lru.getTotalThrashingCount();
+    }
+
+    public int getNumberOfSuspensions() {
+        return numberOfSuspensions;
+    }
+
+    public int getNumberOfFramesTaken() {
+        return numberOfFramesTaken;
+    }
+
+    public int getNumberOfFramesReceived() {
+        return numberOfFramesReceived;
     }
 }

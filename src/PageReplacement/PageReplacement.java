@@ -206,7 +206,7 @@ public abstract class PageReplacement {
         if(!squeeze){
             return getStatistics();
         }
-        return "["+ANSI_YELLOW + totalPageFaultCount + ANSI_RESET + ", " + ANSI_YELLOW + totalThrashingCount + ANSI_RESET + "]\n";
+        return "["+ANSI_YELLOW + totalPageFaultCount + ANSI_RESET + ", " + ANSI_YELLOW + totalThrashingCount + ANSI_RESET + "]";
     }
 
     public void printReplacementFrame(Frame replacementFrame) {
