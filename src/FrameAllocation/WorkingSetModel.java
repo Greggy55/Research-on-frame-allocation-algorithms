@@ -48,9 +48,13 @@ public class WorkingSetModel extends FrameAllocation{
         updateWorkingSetSize(processes);
 
         if(numberOfRequiredFrames <= memory.size()){
-            //for(Process _ : processes){
-            allocateWSS();
-            //}
+            for(Process _ : processes){
+                String memoryBeforeAllocate = memory.toString();
+                allocateWSS();
+                if(memoryBeforeAllocate.equals(memory.toString())){
+                    break;
+                }
+            }
 
             Process[] suspendedProcesses = getSuspendedProcesses();
             if(suspendedProcesses.length > 0){

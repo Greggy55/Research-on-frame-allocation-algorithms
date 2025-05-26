@@ -147,6 +147,11 @@ public class Simulation {
             Process process = page.getProcess();
             process.resetLRU(printLRU);
         }
+        for(Process process: processes){
+            process.setSuspended(false);
+            process.setCanGiveFrame(false);
+            process.setNeedsFrame(false);
+        }
     }
 
     public void generateProcesses(){
