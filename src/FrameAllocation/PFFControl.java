@@ -8,8 +8,11 @@ import Process.Process;
 
 public class PFFControl extends FrameAllocation{
 
-    public static final int LOWER_PFF_LIMIT = PageReplacement.DELTA_T / 3;
-    public static final int UPPER_PFF_LIMIT = PageReplacement.DELTA_T * 2 / 3;
+    public static final int DELTA_T = PageReplacement.DELTA_T;
+
+    public static final int LOWER_PFF_LIMIT = DELTA_T / 3;
+    public static final int UPPER_PFF_LIMIT = DELTA_T * 2 / 3;
+    public static final int ABSOLUTE_PFF_LIMIT = DELTA_T * 9 / 10;
 
     private final FrameAllocation defaultAllocation;
 
