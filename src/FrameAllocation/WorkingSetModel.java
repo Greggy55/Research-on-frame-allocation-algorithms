@@ -5,6 +5,7 @@ import Memory.VirtualMemory.Page;
 import PageReplacement.PageReplacement;
 import Process.Process;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -81,12 +82,17 @@ public class WorkingSetModel extends FrameAllocation{
     public void suspendProcess(Process process){
         super.suspendProcess(process);
         process.setSuspended(true);
+        int k = 0;
         while(process.getNumberOfFrames() > 0){
-            Process p = findProcessWithTheLargestWSS();
+            k %= getActiveProcesses().length;
+            Process p = findProcessWithKthLargestWSS(++k);
             process.giveFrameTo(p, true);
-//            if(print){
-//                System.out.println(getName() + " Transmit frame: " + process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter());
-//            }
+            if(print){
+                System.out.print(process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter() + "\t");
+            }
+        }
+        if(print){
+            System.out.println();
         }
     }
 
@@ -98,9 +104,9 @@ public class WorkingSetModel extends FrameAllocation{
             updateWorkingSetSize(getActiveProcesses());
             p = findProcessWithTheLargestWSS();
         }
-//        if(print){
-//            System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
-//        }
+        if(print){
+            System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
+        }
         process.setSuspended(false);
         updateWorkingSetSize(getActiveProcesses());
         allocateWSS();
@@ -123,6 +129,25 @@ public class WorkingSetModel extends FrameAllocation{
 
         return returnProcess;
     }
+
+    public Process findProcessWithKthLargestWSS(int k) {
+        Process[] processes = getActiveProcesses();
+
+        if(processes == null){
+            throw new IllegalStateException("No active processes found");
+        }
+        if (processes.length < k || k <= 0) {
+            throw new IllegalArgumentException("Invalid k: " + k + "; number of active processes: " + processes.length);
+        }
+
+        Arrays.sort(processes, (p1, p2) -> Integer.compare(
+                workingSetSize.get(p2),
+                workingSetSize.get(p1)
+        ));
+
+        return processes[k - 1];
+    }
+
 
     public int getWorkingSetSize(Process process) {
         final int iter = process.getIter() - 1;

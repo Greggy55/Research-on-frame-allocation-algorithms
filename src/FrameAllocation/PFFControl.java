@@ -96,8 +96,11 @@ public class PFFControl extends FrameAllocation{
             Process p = findProcessWithKthLargestPFF(++k);
             process.giveFrameTo(p, true);
             if(print){
-                System.out.println(getName() + " Transmit frame: " + process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter());
+                System.out.print(process.getTransmittedFrameBefore() + " -> " + process.getTransmittedFrameAfter() + "\t");
             }
+        }
+        if(print){
+            System.out.println();
         }
     }
 
