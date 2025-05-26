@@ -51,5 +51,7 @@ public class Main {
         );
 
         simulation.start();
+        simulation.printParameters();
+        simulation.printStatistics();
     }
 }

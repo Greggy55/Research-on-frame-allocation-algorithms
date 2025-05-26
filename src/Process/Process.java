@@ -125,7 +125,7 @@ public class Process {
 
     @Override
     public String toString() {
-        return "P:\tPages: " + pagesToString() + "\n\tRefStr: " + referenceStringToString();
+        return "\n\tPages: " + pagesToString() + "\n\tRefStr: " + referenceStringToString();
     }
 
     public String colored(){
@@ -215,5 +215,9 @@ public class Process {
 
     public PhysicalMemory getPhysicalMemory() {
         return physicalMemory;
+    }
+
+    public String getStatistics(){
+        return lru.getStatistics();
     }
 }

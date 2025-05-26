@@ -3,12 +3,10 @@ package Simulation;
 import FrameAllocation.*;
 import Memory.PhysicalMemory.PhysicalMemory;
 import Memory.VirtualMemory.Page;
+import PageReplacement.PageReplacement;
 import Process.Process;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 public class Simulation {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -42,6 +40,7 @@ public class Simulation {
     private final double localityFactor = 0.8;
 
     private final Queue<Page> suspendedPages = new LinkedList<>();
+    private final ArrayList<String> statistics = new ArrayList<>();
 
     public Simulation(
             int totalNumberOfFrames,
@@ -80,36 +79,33 @@ public class Simulation {
         generateProcesses();
         createGlobalReferenceString();
 
-        for(Process process : processes){
-            System.out.println(process);
-        }
-        System.out.println();
-        System.out.println("Global: " + Arrays.toString(globalReferenceString));
-        System.out.println();
-
         // ---------- Equal ----------
         reset(printLRU && printEqual);
         frameAllocation = new Equal(printEqual, printEqual, processes, memory, globalReferenceString);
         frameAllocation.run();
         runLRU(printEqual);
+        statistics.add(frameAllocation.getStatistics());
 
         // ---------- Proportional ----------
         reset(printLRU && printProportional);
         frameAllocation = new Proportional(printProportional, printProportional, processes, memory, globalReferenceString);
         frameAllocation.run();
         runLRU(printProportional);
+        statistics.add(frameAllocation.getStatistics());
 
         // ---------- PFF Control ----------
         reset(printLRU && printPFFControl);
         frameAllocation = new PFFControl(printPFFControl, printPFFControl, processes, memory, globalReferenceString);
         frameAllocation.run();
         runLRU(printPFFControl);
+        statistics.add(frameAllocation.getStatistics());
 
         // ---------- Working-Set Model ----------
         reset(printLRU && printWorkingSetModel);
         frameAllocation = new WorkingSetModel(printWorkingSetModel, printWorkingSetModel, processes, memory, globalReferenceString);
         frameAllocation.run();
         runLRU(printWorkingSetModel);
+        statistics.add(frameAllocation.getStatistics());
     }
 
     private void runLRU(boolean printAllocation) {
@@ -152,6 +148,7 @@ public class Simulation {
             process.setCanGiveFrame(false);
             process.setNeedsFrame(false);
         }
+        PageReplacement.resetStatistics();
     }
 
     public void generateProcesses(){
@@ -195,6 +192,31 @@ public class Simulation {
                 continue;
             }
             globalReferenceString[i] = referenceString[globalRefStrIndex];
+        }
+    }
+
+    public void printParameters(){
+        System.out.println();
+        System.out.println("--------------- "+ANSI_YELLOW+"Parameters"+ANSI_RESET+" ---------------");
+        System.out.println();
+        System.out.println("Total number of frames: " + ANSI_YELLOW + totalNumberOfFrames + ANSI_RESET);
+        System.out.println("Number of processes: " + ANSI_YELLOW + numberOfProcesses + ANSI_RESET);
+        System.out.println();
+
+        for(Process process : processes){
+            System.out.println(process.colored() + process);
+            System.out.println("Number of Pages: " + ANSI_YELLOW + process.getTotalNumberOfPages() + ANSI_RESET);
+            System.out.println("Reference string length: " + ANSI_YELLOW + process.getReferenceString().length + ANSI_RESET);
+            System.out.println();
+        }
+        System.out.println("Global reference string: " + Arrays.toString(globalReferenceString));
+        System.out.println("Global reference string length: " + ANSI_YELLOW + globalReferenceStringLength + ANSI_RESET);
+        System.out.println();
+    }
+
+    public void printStatistics() {
+        for (String statistic : statistics) {
+            System.out.print(statistic);
         }
     }
 }

@@ -191,12 +191,15 @@ public abstract class PageReplacement {
         return memory.indexOfPage(currentPage) == -1;
     }
 
-    public void printStatistics() {
-        final int dashes = 15;
-        System.out.println();
-        System.out.printf("%s %s %s\n", "-".repeat(dashes), getName(), "-".repeat(dashes - getName().length() + ANSI_GRAY.length() + ANSI_RESET.length() + dashes/3));
-        System.out.printf("Page fault count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalPageFaultCount);
-        System.out.printf("Total trashing count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalThrashingCount);
+    public String getStatistics() {
+        //final int dashes = 15;
+        //System.out.println();
+        //System.out.printf("%s %s %s\n", "-".repeat(dashes), getName(), "-".repeat(dashes - getName().length() + ANSI_GRAY.length() + ANSI_RESET.length() + dashes/3));
+//        System.out.printf("Page fault count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalPageFaultCount);
+//        System.out.printf("Total trashing count: " + ANSI_YELLOW + "%d\n" + ANSI_RESET, totalThrashingCount);
+
+        return "Page fault count: " + ANSI_YELLOW + "%d\n".formatted(totalPageFaultCount) + ANSI_RESET +
+                "Total trashing count: " + ANSI_YELLOW + "%d\n".formatted(totalThrashingCount) + ANSI_RESET;
     }
 
     public void printReplacementFrame(Frame replacementFrame) {
@@ -216,5 +219,10 @@ public abstract class PageReplacement {
 
     public int getIter() {
         return iter;
+    }
+
+    public static void resetStatistics(){
+        totalPageFaultCount = 0;
+        totalThrashingCount = 0;
     }
 }

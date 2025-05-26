@@ -103,4 +103,9 @@ public abstract class FrameAllocation {
 
         return suspendedProcesses.toArray(new Process[0]);
     }
+
+    public String getStatistics() {
+        return getName() + "\n" +
+                processes[0].getStatistics() + "\n";
+    }
 }
