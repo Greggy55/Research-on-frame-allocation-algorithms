@@ -38,13 +38,13 @@ public abstract class FrameAllocation {
 
     public void suspendProcess(Process process){
         if(print){
-            System.out.printf("%s " + "Suspend process: " + process.pagesToString() + "\n", getName());
+            System.out.printf("%s " + "Suspend " + process.colored() + "\n", getName());
         }
     }
 
     public void unsuspendProcess(Process process){
         if(print){
-            System.out.printf("%s " + "Unsuspend process: " + process.pagesToString() + "\n", getName());
+            System.out.printf("%s " + "Unsuspend " + process.colored() + "\n", getName());
         }
     }
 

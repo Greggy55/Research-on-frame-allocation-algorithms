@@ -127,13 +127,15 @@ public class PFFControl extends FrameAllocation{
         return processes[k - 1];
     }
 
-
     private boolean findAndTakeAvailableFrame(Process process) {
         Process[] processes = getActiveProcesses();
         for(Process p : processes) {
             if(p.canGiveFrame()) {
                 if(p.giveFrameTo(process)){
                     process.setNeedsFrame(false);
+                    if(print){
+                        System.out.println(getName() + " Transmit frame: " + p.getTransmittedFrameBefore() + " -> " + p.getTransmittedFrameAfter());
+                    }
                     return true;
                 }
             }

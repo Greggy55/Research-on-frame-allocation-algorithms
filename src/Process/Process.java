@@ -29,6 +29,9 @@ public class Process {
     private int globalRefStringIndex = 0;
     private boolean completelyInGlobalRefStr = false;
 
+    private String transmittedFrameBefore;
+    private String transmittedFrameAfter;
+
     private LRU lru;
 
     public Process(
@@ -125,6 +128,14 @@ public class Process {
         return "P:\tPages: " + pagesToString() + "\n\tRefStr: " + referenceStringToString();
     }
 
+    public String colored(){
+        return ansi256(colorCode) + "process" + ANSI_RESET;
+    }
+
+    public static String ansi256(int code) {
+        return "\u001B[38;5;" + code + "m";
+    }
+
     public void resetLRU(boolean printLRU){
         lru = new LRU(printLRU, false, physicalMemory);
     }
@@ -179,11 +190,23 @@ public class Process {
         process.numberOfFrames++;
 
         Frame transmittedFrame = this.physicalMemory.removeLastFrame();
+        transmittedFrameBefore = transmittedFrame.toString();
+
         transmittedFrame.clear();
         transmittedFrame.setProcess(process);
         process.physicalMemory.addFrame(transmittedFrame);
 
+        transmittedFrameAfter = transmittedFrame.toString();
+
         return true;
+    }
+
+    public String  getTransmittedFrameBefore() {
+        return transmittedFrameBefore;
+    }
+
+    public String getTransmittedFrameAfter() {
+        return transmittedFrameAfter;
     }
 
     public int getIter(){
