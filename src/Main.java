@@ -14,12 +14,12 @@ public class Main {
 
         PageReplacement.PRINT_SHORT = true;
 
-        int totalNumberOfFrames = 20; // 20
+        int totalNumberOfFrames = 40; // 20 - 40
 
-        int minReferenceStringLength = 500; // 500
-        int maxReferenceStringLength = 1000; // 501-1000
+        int minReferenceStringLength = 500; // 300-500
+        int maxReferenceStringLength = 600; // 501-1000
 
-        int numberOfProcesses = 6; // 6
+        int numberOfProcesses = 10; // 6 - 16
 
         int minNumberOfPages = 30; // 30
         int maxNumberOfPages = 100; // 100
@@ -29,7 +29,7 @@ public class Main {
         boolean printEqual = false;
         boolean printProportional = false;
         boolean printPFFControl = false;
-        boolean printZoneModel = false;
+        boolean printZoneModel = true;
 
         Simulation simulation = new Simulation(
                 totalNumberOfFrames,
