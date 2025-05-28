@@ -17,7 +17,7 @@ public class Main {
         int totalNumberOfFrames = 40; // 20 - 40
 
         int minReferenceStringLength = 500; // 300-500
-        int maxReferenceStringLength = 600; // 501-1000
+        int maxReferenceStringLength = 1000; // 501-1000
 
         int numberOfProcesses = 10; // 6 - 16
 
